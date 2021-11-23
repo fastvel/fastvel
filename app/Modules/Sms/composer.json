@@ -1,0 +1,20 @@
+{
+    "name": "imdgr886/sms",
+    "description": "sms",
+    "type": "laravel-module",
+    "license": "MIT",
+    "autoload": {
+        "psr-4": {
+            "Imdgr886\\Sms\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "imdgr886",
+            "email": "thrall.chen@gmail.com"
+        }
+    ],
+    "require": {
+        "overtrue/easy-sms": "^2.0"
+    }
+}

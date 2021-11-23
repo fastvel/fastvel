@@ -1,0 +1,27 @@
+{
+    "name": "imdgr886/order",
+    "description": "",
+    "type": "laravel-module",
+    "authors": [
+        {
+            "name": "imdgr886",
+            "email": "thrall.chen@gmail.com"
+        }
+    ],
+    "require":{
+        "yansongda/laravel-pay": "^2.3",
+        "imdgr886/snowflake": "*"
+    },
+    "autoload": {
+        "psr-4": {
+            "Imdgr886\\Order\\": "src"
+        }
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "\\Imdgr886\\Order\\OrderServiceProvider"
+            ]
+        }
+    }
+}

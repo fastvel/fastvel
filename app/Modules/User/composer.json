@@ -1,0 +1,29 @@
+{
+    "name": "imdgr886/user",
+    "description": "user module",
+    "type": "laravel-module",
+    "license": "MIT",
+    "autoload": {
+        "psr-4": {
+            "Imdgr886\\User\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "imdgr886",
+            "email": "thrall.chen@gmail.com"
+        }
+    ],
+    "require": {
+        "tymon/jwt-auth": "^1.0",
+        "propaganistas/laravel-phone": "^4.3"
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "\\Imdgr886\\User\\UserServiceProvider"
+            ]
+        },
+        "installer-name": "User"
+    }
+}

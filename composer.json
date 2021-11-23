@@ -11,6 +11,7 @@
         "fruitcake/laravel-cors": "^2.0",
         "guzzlehttp/guzzle": "^7.0.1",
         "imdgr886/order": "dev-master",
+        "imdgr886/sms": "dev-master",
         "imdgr886/snowflake": "^0.1.1",
         "imdgr886/user": "dev-master",
         "laravel/framework": "^8.65",
@@ -58,7 +59,7 @@
             "dont-discover": []
         },
         "installer-paths": {
-            "core-lib": ["type:laravel-module"]
+
         }
     },
     "config": {
@@ -77,6 +78,10 @@
         {
             "type": "path",
             "url": "app/Modules/User"
+        },
+        {
+            "type": "path",
+            "url": "app/Modules/Sms"
         }
     ]
 }

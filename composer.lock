@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "7337c28c5d12c62d0c4242ad20f46e37",
+    "content-hash": "a9a78fcf91df9f58aabde6406dcbbb8f",
     "packages": [
         {
             "name": "asm89/stack-cors",
@@ -1877,6 +1877,45 @@
                     "email": "thrall.chen@gmail.com"
                 }
             ],
+            "transport-options": {
+                "relative": true
+            }
+        },
+        {
+            "name": "imdgr886/sms",
+            "version": "dev-master",
+            "dist": {
+                "type": "path",
+                "url": "app/Modules/Sms",
+                "reference": "91cc049a947add6babc95488f948633ad5b1c2c0"
+            },
+            "require": {
+                "overtrue/easy-sms": "^2.0"
+            },
+            "type": "fastvel-module",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "\\Imdgr886\\Sms\\SmsServiceProvider"
+                    ]
+                },
+                "installer-name": "Sms"
+            },
+            "autoload": {
+                "psr-4": {
+                    "Imdgr886\\Sms\\": "src/"
+                }
+            },
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "imdgr886",
+                    "email": "thrall.chen@gmail.com"
+                }
+            ],
+            "description": "sms",
             "transport-options": {
                 "relative": true
             }
@@ -10350,6 +10389,7 @@
     "minimum-stability": "dev",
     "stability-flags": {
         "imdgr886/order": 20,
+        "imdgr886/sms": 20,
         "imdgr886/user": 20
     },
     "prefer-stable": true,
@@ -10358,5 +10398,5 @@
         "php": "^7.3|^8.0"
     },
     "platform-dev": [],
-    "plugin-api-version": "2.1.0"
+    "plugin-api-version": "2.0.0"
 }

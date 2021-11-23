@@ -18,7 +18,7 @@ class Sms
      * @param array        $data  模板数据，用于替换
      * @return bool
      */
-    protected function send(string $scenes, $mobile, array $data)
+    public function send(string $scenes, $mobile, array $data)
     {
         $gateways = $this->choiceGateways($scenes, $mobile);
         $success = false;
@@ -37,6 +37,7 @@ class Sms
             $success = true;
         } catch (NoGatewayAvailableException $e) {
             // 发送失败
+            dump($e->getResults());
         } finally {
             // 触发事件
             // dispatch(new SmsSendEvent($scenes, $mobile, $name, null, $success));
@@ -45,7 +46,10 @@ class Sms
 //            $usedGateways = Cache::get('sms-used-gateway:' . $mobile . ':' . $scenes, []);
 //            $usedGateways[] = $name;
 //            Cache::put('sms-used-gateway:' . $mobile . ':' . $scenes, array_unique($usedGateways));
-            dump($result);
+            if (!empty($result)) {
+                dump($result);
+            }
+            dump($success);
         }
 
         return $success;
@@ -67,7 +71,7 @@ class Sms
 
         if ($filterUsed) {
             // 发送失败的网关，再次发送最好不用
-            $usedGateways = Cache::get('sms-used-gateway:' . $mobile . ':' . $scenes);
+            $usedGateways = Cache::get('sms-used-gateway:' . $mobile . ':' . $scenes, []);
 
             // 还有没试过的网关， 才需要排除
             if(count($usedGateways) < count($gateways)){

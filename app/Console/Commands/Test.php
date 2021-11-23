@@ -3,6 +3,7 @@
 namespace App\Console\Commands;
 
 use Illuminate\Console\Command;
+use Imdgr886\Sms\Sms;
 use Imdgr886\Snowflake\Facades\Snowflake as FacadesSnowflake;
 use Imdgr886\Snowflake\Snowflake;
 
@@ -40,7 +41,8 @@ class Test extends Command
     public function handle()
     {
         //$sn = app()->make(Snowflake::class, ['startTime' => '2021-11-18 00:00:00']);
-        dump(config('modules.user'));
+        $sms = new Sms();
+        $sms->send('login-verify', 18680672254, ['code' => 766, 'expires' => 5]);
 
     }
 }

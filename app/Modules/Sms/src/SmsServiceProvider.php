@@ -22,7 +22,7 @@ class SmsServiceProvider extends ServiceProvider
         }
 
         // publish
-        $this->publishes([config_path('modules/sms.php'), __DIR__. '/../config/sms.php'], 'sms');
+        $this->publishes([__DIR__. '/../config/sms.php' => config_path('modules/sms.php')], 'sms');
     }
 
     protected function defineRoutes()

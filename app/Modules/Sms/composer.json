@@ -1,7 +1,7 @@
 {
     "name": "imdgr886/sms",
     "description": "sms",
-    "type": "laravel-module",
+    "type": "fastvel-module",
     "license": "MIT",
     "autoload": {
         "psr-4": {
@@ -16,5 +16,13 @@
     ],
     "require": {
         "overtrue/easy-sms": "^2.0"
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "\\Imdgr886\\Sms\\SmsServiceProvider"
+            ]
+        },
+        "installer-name": "Sms"
     }
 }

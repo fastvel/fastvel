@@ -1,6 +1,6 @@
 <?php
 
-namespace Imdgr886\Sms;
+namespace Imdgr886\Sms\Controllers;
 
 use Illuminate\Routing\Controller;
 

@@ -12,16 +12,12 @@ class SmsSendEvent
 
     protected $scenes;
     protected $mobile;
-    protected $gateway;
-    protected $content;
-    protected $success;
+    protected $result;
 
-    public function __construct(string $scenes, string $mobile, string $gateway, string $content, bool $success)
+    public function __construct(string $scenes, string $mobile, $result)
     {
         $this->scenes = $scenes;
         $this->mobile = $mobile;
-        $this->gateway = $gateway;
-        $this->content = $content;
-        $this->success = $success;
+        $this->result = $result;
     }
 }

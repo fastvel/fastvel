@@ -5,7 +5,7 @@ namespace Imdgr886\User;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\ServiceProvider;
 use Imdgr886\User\Commands\Installer;
-use Imdgr886\User\Controllers\AuthController;
+use Imdgr886\User\Http\Controllers;
 
 class UserServiceProvider extends ServiceProvider
 {
@@ -38,9 +38,21 @@ class UserServiceProvider extends ServiceProvider
         }
 
         Route::middleware(['api'])->prefix('api')->group(function () {
-            Route::post('/login', AuthController::class.'@login');
-            Route::post('/login-with-email', AuthController::class.'@loginWithEmail');
-            Route::get('/me', AuthController::class.'@me');
+            Route::post('/user', Controllers\RegisterController::class. '@create');
+            Route::post('/login', Controllers\AuthController::class.'@login');
+            Route::post('/login-with-email', Controllers\AuthController::class.'@loginWithEmail');
+            Route::get('/me', Controllers\AuthController::class.'@me');
         });
+
+        Route::middleware('guest')->group(function () {
+            Route::get('/verify-email/{id}/{hash}', [Controllers\VerifyEmailController::class, 'verifyEmail'])
+                //->middleware(['signed', 'throttle:6,1'])
+                ->name('verification.verify');
+
+//            Route::get('/verify-email/{id}/{hash}', [VerifyEmailController::class, 'verifyEmail'])
+//                ->middleware(['auth', 'signed', 'throttle:6,1'])
+//                ->name('login');
+        });
+
     }
 }

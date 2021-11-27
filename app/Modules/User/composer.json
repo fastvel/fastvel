@@ -1,7 +1,7 @@
 {
     "name": "imdgr886/user",
     "description": "user module",
-    "type": "laravel-module",
+    "type": "fastvel-module",
     "license": "MIT",
     "autoload": {
         "psr-4": {

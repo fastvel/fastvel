@@ -1,6 +1,6 @@
 <?php
 
-namespace Imdgr886\User\Controllers;
+namespace Imdgr886\User\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;

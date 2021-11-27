@@ -2,11 +2,11 @@
 
 namespace Imdgr886\User\Models;
 
-use Illuminate\Database\Eloquent\Model;
+use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Notifications\Notifiable;
 use Tymon\JWTAuth\Contracts\JWTSubject;
 
-class User extends Model implements JWTSubject
+class User extends \Illuminate\Foundation\Auth\User implements JWTSubject, MustVerifyEmail
 {
     use Notifiable;
 
@@ -15,7 +15,11 @@ class User extends Model implements JWTSubject
         'remember_token',
     ];
 
-    // Rest omitted for brevity
+    protected $fillable = [
+        'name', 'email', 'mobile', 'password'
+    ];
+
+    ##### Jwt 契约 start #####
 
     /**
      * Get the identifier that will be stored in the subject claim of the JWT.
@@ -36,4 +40,5 @@ class User extends Model implements JWTSubject
     {
         return [];
     }
+    ##### Jwt 契约 end #####
 }

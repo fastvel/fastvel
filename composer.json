@@ -17,12 +17,14 @@
         "laravel/framework": "^8.65",
         "laravel/sanctum": "^2.12",
         "laravel/tinker": "^2.5",
-        "overtrue/easy-sms": "^2.0"
+        "overtrue/easy-sms": "^2.0",
+        "overtrue/laravel-lang": "~5.0"
     },
     "require-dev": {
         "facade/ignition": "^2.5",
         "fakerphp/faker": "^1.9.1",
         "laravel/sail": "^1.0.1",
+        "laravel/telescope": "^4.6",
         "mockery/mockery": "^1.4.4",
         "nunomaduro/collision": "^5.10",
         "phpunit/phpunit": "^9.5.10"
@@ -56,7 +58,9 @@
     },
     "extra": {
         "laravel": {
-            "dont-discover": []
+            "dont-discover": [
+                "laravel/telescope"
+            ]
         },
         "installer-paths": {
 

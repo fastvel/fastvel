@@ -39,9 +39,7 @@ class SmsServiceProvider extends ServiceProvider
         }
 
         Route::middleware(['api'])->prefix('api')->group(function () {
-            Route::any('/sms/verify', SmsController::class.'@postSendVerify');
-            Route::any('/sms/v', SmsController::class.'@verify');
-            Route::get('/sms/info', SmsController::class.'@info');
+            Route::post('/sms/verify/send', SmsController::class.'@postSendVerify');
         });
     }
 

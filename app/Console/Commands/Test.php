@@ -3,6 +3,8 @@
 namespace App\Console\Commands;
 
 use Illuminate\Console\Command;
+use Illuminate\Support\Arr;
+use Illuminate\Support\Facades\Validator;
 use Imdgr886\Sms\Sms;
 use Imdgr886\Snowflake\Facades\Snowflake as FacadesSnowflake;
 use Imdgr886\Snowflake\Snowflake;
@@ -40,9 +42,18 @@ class Test extends Command
      */
     public function handle()
     {
+        $v = Validator::make(['mobiles' => 18680672254, 'verify' => 195793], [
+            'verify' => 'verify_code:mobiles,reset'
+        ]);
+        dump($v->validate());
+        return;
         //$sn = app()->make(Snowflake::class, ['startTime' => '2021-11-18 00:00:00']);
         $sms = new Sms();
-        $sms->send('login-verify', 18680672254, ['code' => 766, 'expires' => 5]);
+        if ($sms->sendVerify(18680672254, 'reset')) {
+            $this->info('success');
+        } else {
+            $this->error('failed');
+        }
 
     }
 }

@@ -2,7 +2,7 @@
 
 return [
     'timeout' => 5.0,
-
+    'dev_mode' => env('SMS_DEV_MODE', false),
     'middleware' => [],
 
     'code' => [
@@ -21,7 +21,7 @@ return [
             'default' => [
                 'qcloud',
                 'aliyun',
-                'errorlog'
+
             ],
             //登录验证
             'login-verify' => [

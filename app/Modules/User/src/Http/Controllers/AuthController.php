@@ -2,22 +2,38 @@
 
 namespace Imdgr886\User\Http\Controllers;
 
+use Illuminate\Auth\Events\Registered;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
+use Illuminate\Support\Facades\Validator;
+use Imdgr886\User\Models\User;
 
 class AuthController extends Controller
 {
     /**
      * 手机号登录
      * @param Request $request
-     * @return void
+     *
      */
-    public function loginWithMobile(Request $request)
+    public function viaMobile(Request $request)
     {
         $request->validate([
             'mobile' => ['required', 'phone:CN'],
             'verify_code' => ['required', 'verify_code'],
         ]);
+        // 手机号一键注册登录
+        $user = User::query()->where(['mobile' => $request->get('mobile')])->firstOrCreate([
+            'mobile' => $request->get('mobile'),
+            'name' => $request->get('mobile'),
+        ]);
+        // 如果是新注册的用户，触发注册事件
+        if ($user->wasRecentlyCreated) {
+            event(new Registered($user));
+        }
+
+        $token = auth('api')->login($user);
+
+        return $this->respondWithToken($token);
     }
 
     /**
@@ -25,7 +41,7 @@ class AuthController extends Controller
      * @param Request $request
      * @return void
      */
-    public function loginWithEmail(Request $request)
+    public function viaEmail(Request $request)
     {
         $credentials = request(['email', 'password']);
 

@@ -13,19 +13,12 @@ class RegisterController extends Controller
 {
     public function create(Request $request)
     {
-        $validator = Validator::make($request->all(), [
+        $request->validate([
             'name' => ['required', 'string', 'max:255'],
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
             'password' => ['required', 'confirmed', 'string', 'min:6'],
             'terms' => ['required', 'accepted']
         ]);
-
-        if ($validator->fails()) {
-            return response()->json([
-                'success' => false,
-                'validations' => $validator->errors()->getMessages()
-            ]);
-        }
 
         $user = User::create([
             'name' => $request->get('name'),

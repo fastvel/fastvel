@@ -16,3 +16,6 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', function () {
     return view('welcome');
 });
+
+Route::any('/login-via-mobile', Imdgr886\User\Http\Controllers\AuthController::class.'@viaMobile');
+

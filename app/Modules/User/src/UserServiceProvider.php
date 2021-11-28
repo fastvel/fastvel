@@ -29,6 +29,8 @@ class UserServiceProvider extends ServiceProvider
         }
 
         $this->defineRoutes();
+
+        $this->publishes([__DIR__.'/../migrations' => database_path('migrations')], ['user', 'laravel-asset']);
     }
 
     protected function defineRoutes()
@@ -38,21 +40,16 @@ class UserServiceProvider extends ServiceProvider
         }
 
         Route::middleware(['api'])->prefix('api')->group(function () {
-            Route::post('/user', Controllers\RegisterController::class. '@create');
-            Route::post('/login', Controllers\AuthController::class.'@login');
-            Route::post('/login-with-email', Controllers\AuthController::class.'@loginWithEmail');
+            Route::post('/register', Controllers\RegisterController::class. '@create');
+            Route::post('/login-via-mobile', Controllers\AuthController::class.'@viaMobile');
+            Route::post('/login-via-email', Controllers\AuthController::class.'@viaEmail');
             Route::get('/me', Controllers\AuthController::class.'@me');
         });
 
         Route::middleware('guest')->group(function () {
             Route::get('/verify-email/{id}/{hash}', [Controllers\VerifyEmailController::class, 'verifyEmail'])
-                //->middleware(['signed', 'throttle:6,1'])
+                ->middleware(['signed', 'throttle:6,1'])
                 ->name('verification.verify');
-
-//            Route::get('/verify-email/{id}/{hash}', [VerifyEmailController::class, 'verifyEmail'])
-//                ->middleware(['auth', 'signed', 'throttle:6,1'])
-//                ->name('login');
         });
-
     }
 }

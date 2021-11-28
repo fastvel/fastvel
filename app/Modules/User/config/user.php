@@ -6,5 +6,9 @@ return [
     'password' => [
         // 注册的时候是否需要确认密码
         'confirm' => true
+    ],
+
+    'features' => [
+        'login_via_email'
     ]
 ];

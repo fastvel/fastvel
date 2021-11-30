@@ -96,7 +96,7 @@ class Sms
         Arr::set($state, "deadline.{$scenes}", time() + 300);
         Arr::set($state, "lastsent.{$scenes}", time());
         $this->updateState($mobile, $state);
-
+        dump($code);return;
         return $this->send($mobile, ['code' => $code, 'exp' => 5], $scenes);
     }
 

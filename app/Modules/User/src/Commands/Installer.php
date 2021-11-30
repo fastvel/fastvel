@@ -12,6 +12,7 @@ class Installer extends Command
     public function handle()
     {
         $this->callSilent("vendor:publish", ['--provider' => 'Tymon\JWTAuth\Providers\LaravelServiceProvider']);
+        $this->callSilent("vendor:publish", ['--tag' => 'user']);
         $this->callSilent("jwt:secret");
     }
 }

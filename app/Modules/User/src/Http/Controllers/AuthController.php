@@ -13,6 +13,7 @@ class AuthController extends Controller
     /**
      * 手机号登录
      * @param Request $request
+     * @return \Illuminate\Http\JsonResponse
      *
      */
     public function viaMobile(Request $request)
@@ -22,8 +23,9 @@ class AuthController extends Controller
             'verify_code' => ['required', 'verify_code'],
         ]);
         // 手机号一键注册登录
-        $user = User::query()->where(['mobile' => $request->get('mobile')])->firstOrCreate([
-            'mobile' => $request->get('mobile'),
+        $user = User::query()->firstOrCreate([
+            'mobile' => $request->get('mobile')
+        ], [
             'name' => $request->get('mobile'),
         ]);
         // 如果是新注册的用户，触发注册事件
@@ -39,7 +41,7 @@ class AuthController extends Controller
     /**
      * 邮箱登录
      * @param Request $request
-     * @return void
+     * @return \Illuminate\Http\JsonResponse
      */
     public function viaEmail(Request $request)
     {
@@ -55,16 +57,6 @@ class AuthController extends Controller
         }
 
         return $this->respondWithToken($token);
-    }
-
-    /**
-     * Get the authenticated User.
-     *
-     * @return \Illuminate\Http\JsonResponse
-     */
-    public function me()
-    {
-        return response()->json(auth('api')->user());
     }
 
     /**

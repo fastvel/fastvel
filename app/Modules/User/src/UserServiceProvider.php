@@ -53,7 +53,7 @@ class UserServiceProvider extends ServiceProvider
             // 通过手机号重置密码
             // Route::post('/password-verify-mobile', Controllers\ResetPasswordController::class . '@mobileVerifyCode');
 
-            Route::post('/refresh-token', Controllers\AuthController::class.'@refresh');
+            Route::post('/token/refresh', Controllers\AuthController::class.'@refresh');
 
             Route::group(['middleware' => 'auth:api'], function () {
                 Route::get('/me', Controllers\ProfileController::class.'@me');

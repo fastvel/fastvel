@@ -2,10 +2,12 @@
 
 namespace Imdgr886\User\Http\Controllers;
 
+use Illuminate\Auth\AuthenticationException;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Validation\UnauthorizedException;
 use Imdgr886\User\Models\User;
 
 class AuthController extends Controller
@@ -35,7 +37,7 @@ class AuthController extends Controller
 
         $token = auth('api')->login($user);
 
-        return $this->respondWithToken($token);
+        return $this->respondWithToken($token, $user);
     }
 
     /**
@@ -56,7 +58,7 @@ class AuthController extends Controller
                 ]);
         }
 
-        return $this->respondWithToken($token);
+        return $this->respondWithToken($token, auth('api')->user());
     }
 
     /**
@@ -78,7 +80,12 @@ class AuthController extends Controller
      */
     public function refresh()
     {
-        return $this->respondWithToken(auth('api')->refresh());
+        try {
+            return $this->respondWithToken(auth('api')->refresh(), auth('api')->user());
+        } catch (\Exception $e) {
+            throw new AuthenticationException();
+        }
+
     }
 
     /**
@@ -88,13 +95,12 @@ class AuthController extends Controller
      *
      * @return \Illuminate\Http\JsonResponse
      */
-    protected function respondWithToken($token)
+    protected function respondWithToken($token, $user)
     {
         return response()->json([
-            'status' => 'success',
+            'success' => true,
             'access_token' => $token,
-            'token_type' => 'bearer',
-            'expires_in' => auth('api')->factory()->getTTL() * 60
+            'user' => $user
         ]);
     }
 

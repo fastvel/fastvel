@@ -29,10 +29,9 @@ class RegisterController extends Controller
         event(new Registered($user));
 
         return response()->json([
-            'status' => 'success',
+            'success' => true,
             'access_token' => auth('api')->login($user),
-            'token_type' => 'bearer',
-            'expires_in' => auth('api')->factory()->getTTL() * 60
+            'user' => $user
         ]);
     }
 
@@ -55,10 +54,9 @@ class RegisterController extends Controller
         event(new Registered($user));
 
         return response()->json([
-            'status' => 'success',
+            'success' => true,
             'access_token' => auth('api')->login($user),
-            'token_type' => 'bearer',
-            'expires_in' => auth('api')->factory()->getTTL() * 60
+            'user' => $user,
         ]);
     }
 }

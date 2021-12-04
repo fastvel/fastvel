@@ -6,6 +6,7 @@
     "license": "MIT",
     "require": {
         "php": "^7.3|^8.0",
+        "beyondcode/laravel-websockets": "^1.12",
         "composer/installers": "^2.0",
         "encore/laravel-admin": "^1.8",
         "fruitcake/laravel-cors": "^2.0",
@@ -14,10 +15,12 @@
         "imdgr886/sms": "dev-master",
         "imdgr886/snowflake": "^0.1.1",
         "imdgr886/user": "dev-master",
+        "imdgr886/wechat": "dev-master",
         "laravel/framework": "^8.65",
         "laravel/tinker": "^2.5",
         "overtrue/easy-sms": "^2.0",
-        "overtrue/laravel-lang": "~5.0"
+        "overtrue/laravel-lang": "^5.0",
+        "pusher/pusher-php-server": "~3.0"
     },
     "require-dev": {
         "facade/ignition": "^2.5",
@@ -85,6 +88,10 @@
         {
             "type": "path",
             "url": "app/Modules/Sms"
+        },
+        {
+            "type": "path",
+            "url": "app/Modules/Wechat"
         }
     ]
 }

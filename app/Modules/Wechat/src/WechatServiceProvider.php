@@ -22,5 +22,10 @@ class WechatServiceProvider extends ServiceProvider
     {
 
         Route::any('/wechat', Controllers\WeChatController::class . '@serve');
+        Route::middleware(['api'])->prefix('api')->group(function () {
+            Route::get('/wechat/qr/login', Controllers\QrcodeController::class . '@login');
+        });
+
+
     }
 }

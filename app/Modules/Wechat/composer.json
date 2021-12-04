@@ -20,7 +20,7 @@
     "extra": {
         "laravel": {
             "providers": [
-                "\\Imdgr886\\User\\WechatServiceProvider"
+                "\\Imdgr886\\Wechat\\WechatServiceProvider"
             ]
         },
         "installer-name": "Wechat"

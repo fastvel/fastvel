@@ -3,6 +3,7 @@
 namespace Imdgr886\User\Models;
 
 use Illuminate\Contracts\Auth\MustVerifyEmail;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Notifications\Notifiable;
 use Tymon\JWTAuth\Contracts\JWTSubject;
 
@@ -16,7 +17,7 @@ class User extends \Illuminate\Foundation\Auth\User implements JWTSubject, MustV
     ];
 
     protected $fillable = [
-        'name', 'email', 'mobile', 'password'
+        'name', 'email', 'mobile', 'password', 'avatar',
     ];
 
     ##### Jwt 契约 start #####
@@ -41,4 +42,10 @@ class User extends \Illuminate\Foundation\Auth\User implements JWTSubject, MustV
         return [];
     }
     ##### Jwt 契约 end #####
+
+    public function oauth(): HasMany
+    {
+        return $this->hasMany(Oauth::class);
+    }
+
 }

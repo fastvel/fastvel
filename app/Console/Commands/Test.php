@@ -8,6 +8,9 @@ use Illuminate\Support\Facades\Validator;
 use Imdgr886\Sms\Sms;
 use Imdgr886\Snowflake\Facades\Snowflake as FacadesSnowflake;
 use Imdgr886\Snowflake\Snowflake;
+use Imdgr886\User\Models\Oauth;
+use Imdgr886\User\Models\User;
+use Imdgr886\Wechat\Events\ScanLoginEvent;
 
 class Test extends Command
 {
@@ -42,6 +45,10 @@ class Test extends Command
      */
     public function handle()
     {
+
+        //Oauth::query()->where(['openid' => 'oyw8o63Azs6LfSKR-PrLauITWhQw', 'platform' => Oauth::WECHAT_MP])->first();
+        event(new ScanLoginEvent(User::first(), '5597230415872'));
+        return;
         $v = Validator::make(['mobiles' => 18680672254, 'verify' => 195793], [
             'verify' => 'verify_code:mobiles,reset'
         ]);

@@ -48,6 +48,10 @@ class AuthController extends Controller
     public function viaEmail(Request $request)
     {
         $credentials = request(['email', 'password']);
+        $request->validate([
+            'email' => ['required', 'email'],
+            'password' => ['required'],
+        ]);
 
         if (! $token = auth('api')->attempt($credentials)) {
             return response()->json([

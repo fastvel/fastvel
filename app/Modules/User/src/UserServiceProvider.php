@@ -49,9 +49,10 @@ class UserServiceProvider extends ServiceProvider
             Route::post('/login-via-email', Controllers\AuthController::class.'@viaEmail');
 
             // 忘记密码
+            Route::post('verify-mobile', Controllers\VerifyMobileController::class . '@verifyMobile');
             // Route::post('/password-reset-link', Controllers\ResetPasswordController::class . '@sendLink');
             // 通过手机号重置密码
-            // Route::post('/password-verify-mobile', Controllers\ResetPasswordController::class . '@mobileVerifyCode');
+            Route::post('/reset-password-via-mobile', Controllers\ResetPasswordController::class . '@resetViaMobile');
 
             Route::post('/token/refresh', Controllers\AuthController::class.'@refresh');
 

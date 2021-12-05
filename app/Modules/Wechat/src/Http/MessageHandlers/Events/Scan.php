@@ -29,7 +29,7 @@ class Scan
             $unionid = @$userinfo['unionid'];
             if ($unionid && ($oauth = Oauth::where(['unionid' => $unionid])->first() )) {
                 event(new ScanLoginEvent($oauth->user, $scene));
-                return 'unionid';
+                return '扫码登录成功';
             }
 
             $oauth = Oauth::query()->where(['openid' => $data['FromUserName'], 'platform' => Oauth::WECHAT_MP])->first();
@@ -52,7 +52,7 @@ class Scan
             event(new ScanLoginEvent($user, $scene));
             return '扫码登录成功';
         }
-        return $eventKey;
+        return null;
 
     }
 

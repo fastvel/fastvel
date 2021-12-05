@@ -3,23 +3,35 @@
 namespace Imdgr886\User\Http\Controllers;
 
 use Illuminate\Auth\Events\PasswordReset;
+use Illuminate\Auth\Passwords\PasswordResetServiceProvider;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Password;
 use Illuminate\Support\Str;
+use Imdgr886\User\Models\User;
 
 class ResetPasswordController extends Controller
 {
-    public function handle(Request $request)
+    public function resetViaMobile(Request $request)
     {
         $request->validate([
-            'password' => ['required', 'confirmed']
+            'password' => ['required', 'confirmed'],
+            'mobile' => ['required', 'phone:CN']
         ]);
-        $success = Sms::sendVerify($request->get('mobile'));
+        $user = User::where(['mobile' => $request->get('mobile')])->first();
+        if (!$user) {
+            return response()->json([
+                'success' => false,
+                'message' => '手机号未注册'
+            ]);
+        }
+        $user->password = Hash::make($request->get('password'));
+        $user->save();
         return response()->json([
-            'success' => $success,
-            'message' => $success ? '验证码发送成功': '验证码发送失败'
+            'success' => true,
+            'message' => '密码重置成功'
         ]);
     }
     /**

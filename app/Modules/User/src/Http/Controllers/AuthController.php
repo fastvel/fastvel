@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\UnauthorizedException;
+use Illuminate\Validation\ValidationException;
 use Imdgr886\User\Models\User;
 
 class AuthController extends Controller
@@ -41,16 +42,33 @@ class AuthController extends Controller
     }
 
     /**
-     * 邮箱登录
+     * 账号密码登录
      * @param Request $request
      * @return \Illuminate\Http\JsonResponse
      */
-    public function viaEmail(Request $request)
+    public function viaPassword(Request $request)
     {
-        $credentials = request(['email', 'password']);
+        $credentials = $request->only(['password']);
+        $emailValidator = Validator::make($request->all(), [
+            'account' => ['required', 'email']
+        ]);
+        $mobileValidator = Validator::make($request->all(), [
+            'account' => ['phone:CN']
+        ]);
+
+        if (!$mobileValidator->fails()) {
+            $credentials['mobile'] = $request->get('account');
+        } elseif (!$emailValidator->fails()) {
+            $credentials['email'] = $request->get('account');
+        } else {
+            throw ValidationException::withMessages(['account' => '请输入有效的邮箱或手机号']);
+        }
+return response()->json($credentials);
         $request->validate([
-            'email' => ['required', 'email'],
+            'account' => ['required'],
             'password' => ['required'],
+        ], [
+            'account' => '手机号或邮箱'
         ]);
 
         if (! $token = auth('api')->attempt($credentials)) {

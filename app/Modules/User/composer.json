@@ -15,8 +15,7 @@
         }
     ],
     "require": {
-        "tymon/jwt-auth": "^1.0",
-        "propaganistas/laravel-phone": "^4.3"
+        "tymon/jwt-auth": "^1.0"
     },
     "extra": {
         "laravel": {

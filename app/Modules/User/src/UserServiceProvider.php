@@ -46,7 +46,7 @@ class UserServiceProvider extends ServiceProvider
             Route::post('/register-via-mobile', Controllers\RegisterController::class. '@viaMobile');
             // 登录
             Route::post('/login-via-mobile', Controllers\AuthController::class.'@viaMobile');
-            Route::post('/login-via-email', Controllers\AuthController::class.'@viaEmail');
+            Route::post('/login-via-password', Controllers\AuthController::class.'@viaPassword');
 
             // 忘记密码
             Route::post('verify-mobile', Controllers\VerifyMobileController::class . '@verifyMobile');

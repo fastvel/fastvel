@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Validation\Rules\Password;
 use Imdgr886\User\Models\User;
 
 class RegisterController extends Controller
@@ -16,7 +17,7 @@ class RegisterController extends Controller
         $request->validate([
             'name' => ['required', 'string', 'max:255'],
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
-            'password' => ['required', 'confirmed', 'string', 'min:6'],
+            'password' => ['required', 'confirmed', Password::default()],
             'terms' => ['required', 'accepted']
         ]);
 

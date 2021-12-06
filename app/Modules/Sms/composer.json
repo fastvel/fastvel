@@ -15,8 +15,7 @@
         }
     ],
     "require": {
-        "overtrue/easy-sms": "^2.0",
-        "propaganistas/laravel-phone": "^4.3"
+        "overtrue/easy-sms": "^2.0"
     },
     "extra": {
         "laravel": {

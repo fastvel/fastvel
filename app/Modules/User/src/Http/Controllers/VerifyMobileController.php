@@ -25,7 +25,7 @@ class VerifyMobileController extends Controller
             'verify_code' => ['required', 'verify_code']
         ]);
         $mobile = $request->get('mobile');
-        if (!User::where(['mobile' => $mobile])->exist()) {
+        if (!User::where(['mobile' => $mobile])->exists()) {
             $exception = ValidationException::withMessages([
                 'mobile' => '用户未注册'
             ]);

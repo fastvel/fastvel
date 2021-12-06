@@ -17,7 +17,7 @@ class ResetPasswordController extends Controller
     public function resetViaMobile(Request $request)
     {
         $request->validate([
-            'password' => ['required', 'confirmed'],
+            'password' => ['required', 'confirmed', \Illuminate\Validation\Rules\Password::default()],
             'mobile' => ['required', 'phone:CN']
         ]);
         $user = User::where(['mobile' => $request->get('mobile')])->first();
@@ -29,6 +29,13 @@ class ResetPasswordController extends Controller
         }
         $user->password = Hash::make($request->get('password'));
         $user->save();
+        if ($request->get('login', false)) {
+            return response()->json([
+                'success' => true,
+                'access_token' => auth('api')->login($user),
+                'user' => $user,
+            ]);
+        }
         return response()->json([
             'success' => true,
             'message' => '密码重置成功'

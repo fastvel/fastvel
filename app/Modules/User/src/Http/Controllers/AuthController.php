@@ -7,6 +7,7 @@ use Illuminate\Auth\Events\Registered;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Validation\Rules\Password;
 use Illuminate\Validation\UnauthorizedException;
 use Illuminate\Validation\ValidationException;
 use Imdgr886\User\Models\User;
@@ -48,7 +49,7 @@ class AuthController extends Controller
      */
     public function viaPassword(Request $request)
     {
-        $credentials = $request->only(['password']);
+        $credentials = request(['password']);
         $emailValidator = Validator::make($request->all(), [
             'account' => ['required', 'email']
         ]);
@@ -63,19 +64,17 @@ class AuthController extends Controller
         } else {
             throw ValidationException::withMessages(['account' => '请输入有效的邮箱或手机号']);
         }
-return response()->json($credentials);
+
         $request->validate([
             'account' => ['required'],
-            'password' => ['required'],
-        ], [
-            'account' => '手机号或邮箱'
+            'password' => ['required', Password::default()],
         ]);
 
         if (! $token = auth('api')->attempt($credentials)) {
             return response()->json([
-                    'message' => '邮箱或密码错误',
+                    'message' => '账号或密码错误',
                     'errors' => [
-                        'password' => '邮箱或密码错误'
+                        'password' => '账号或密码错误'
                     ]
                 ]);
         }

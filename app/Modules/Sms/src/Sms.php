@@ -6,8 +6,10 @@ use Exception;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Str;
 use Imdgr886\Sms\Events\SmsSendEvent;
+use Overtrue\EasySms\Exceptions\GatewayErrorException;
 use Overtrue\EasySms\Exceptions\NoGatewayAvailableException;
 
 class Sms
@@ -35,7 +37,7 @@ class Sms
     public function updateState(string $mobile, array $state)
     {
         $this->state = $state;
-        Cache::put($this->generateCacheKey($mobile), $state, Carbon::now()->addMinutes(10));
+        $res = Cache::put($this->generateCacheKey($mobile), $state, Carbon::now()->addMinutes(10));
     }
 
     /**
@@ -48,8 +50,9 @@ class Sms
     public function send($mobile, array $data, string $scenes)
     {
         $gateways = $this->choiceGateways($scenes, $mobile);
+        // Log::info(var_export($gateways, true));
         $success = false;
-        $result = null;
+        $result = [];
 
         try {
             $result = app()->get('easysms')->send($mobile, [
@@ -63,15 +66,24 @@ class Sms
             ], $gateways);
             // 发送成功
             $success = true;
-        } catch (Exception $e) {
-
+        } catch (NoGatewayAvailableException $e) {
+            if (!is_array($mobile)) {
+                $state = $this->getState($mobile);
+                $usedGateways = Arr::get($state, 'used_gateways', []);
+                // 如果全部失败，把失败的 gateway 全部设为已用过的
+                $state['used_gateways'] =array_unique(array_merge($gateways, $usedGateways));
+                Log::info('当前 used:'. var_export($state['used_gateways'], true));
+                $this->updateState($mobile, $state);
+            }
         } finally {
             // 触发事件
             event(new SmsSendEvent($scenes, $mobile, $result));
             if ($result && !is_array($mobile)) {
                 $state = $this->getState($mobile);
                 $usedGateways = Arr::get($state, 'used_gateways', []);
+                // 如果全部失败，把失败的 gateway 全部设为已用过的
                 $state['used_gateways'] =array_unique(array_merge(array_keys($result), $usedGateways));
+                // Log::info(var_export($state['used_gateways'], true));
                 $this->updateState($mobile, $state);
             }
         }
@@ -92,11 +104,17 @@ class Sms
         } else {
             $code = $this->generateVerifyCode();
         }
+
+        $res = $this->send($mobile, ['code' => $code, 'exp' => 5], $scenes);
+        if (!$res) {
+            return $res;
+        }
+        $state = $this->getState($mobile);
         Arr::set($state, "code.{$scenes}", $code);
         Arr::set($state, "deadline.{$scenes}", time() + 300);
         Arr::set($state, "lastsent.{$scenes}", time());
         $this->updateState($mobile, $state);
-        return $this->send($mobile, ['code' => $code, 'exp' => 5], $scenes);
+        return $res;
     }
 
     /**
@@ -120,13 +138,14 @@ class Sms
         }
 
         if ($filterUsed) {
-            // 发送失败的网关，再次发送最好不用
+            // 发送失败的网关，再次发送最好不用,用户重试表示没收到，是发送失败的
             $usedGateways = Arr::get($this->getState($mobile), 'used_gateways');
 
             // 还有没试过的网关， 才需要排除
             if($usedGateways && count($usedGateways) < count($gateways)){
                 $gateways = array_diff($gateways, $usedGateways);
             }
+
         }
         return $gateways;
     }

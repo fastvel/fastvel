@@ -132,4 +132,11 @@ return [
             'rule-name' => 'custom-message',
         ],
     ],
+
+    'attributes' => [
+        'password' => '密码',
+        'email' => '邮箱',
+        'mobile' => '手机号',
+        'account' => '账号'
+    ]
 ];

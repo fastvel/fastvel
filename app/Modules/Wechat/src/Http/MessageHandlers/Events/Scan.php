@@ -8,6 +8,7 @@ use Illuminate\Support\Str;
 use Imdgr886\User\Models\Oauth;
 use Imdgr886\User\Models\User;
 use Imdgr886\Wechat\Events\ScanLoginEvent;
+use Imdgr886\Wechat\Events\UnauthBindEvent;
 
 /**
  * 微信扫码事件处理
@@ -27,30 +28,22 @@ class Scan
             $scene = str_replace('scan.login:', '', $eventKey);
             $userinfo = app('wechat.official_account')->user->get($data['FromUserName']);
             $unionid = @$userinfo['unionid'];
-            if ($unionid && ($oauth = Oauth::where(['unionid' => $unionid])->first() )) {
-                event(new ScanLoginEvent($oauth->user, $scene));
-                return '扫码登录成功';
-            }
-
-            $oauth = Oauth::query()->where(['openid' => $data['FromUserName'], 'platform' => Oauth::WECHAT_MP])->first();
-
-            if (!$oauth) {
-                $user = User::create([
-                    'name' => $userinfo['nickname'],
-                    'avatar' =>$userinfo['headimgurl'],
-                ]);
-                $user->oauth()->save(new Oauth([
-                    'user_id' => $user->id,
-                    'openid' => $data['FromUserName'],
-                    'platform' => Oauth::WECHAT_MP,
-                    'unionid' => $unionid ?: null,
-                ]));
+            if ($unionid) {
+                $oauth = Oauth::where(['unionid' => $unionid])->first();
             } else {
-                $user = $oauth->user;
+                $oauth = Oauth::query()->where(['openid' => $data['FromUserName'], 'platform' => Oauth::WECHAT_MP])->first();
             }
 
-            event(new ScanLoginEvent($user, $scene));
-            return '扫码登录成功';
+            if ($oauth) {
+                $user = $oauth->user;
+                event(new ScanLoginEvent($user, $scene));
+                return '扫码登录成功';
+            } else {
+                // 还没有绑定账号，需要绑定
+                event(new UnauthBindEvent($data['FromUserName'], $scene));
+                return "扫码成功，请绑定账号";
+            }
+
         }
         return null;
 

@@ -52,6 +52,20 @@ class Team extends Model
     }
 
     /**
+     * 判断 email 是否属于团队成员.
+     *
+     * @param  string  $email
+     * @return bool
+     */
+    public function hasUserWithEmail(string $email)
+    {
+        if (!$email) return false;
+        return $this->allUsers()->contains(function ($user) use ($email) {
+            return $user->email === $email;
+        });
+    }
+
+    /**
      * 判断用户是否有团队权限.
      *
      * @param  User  $user
@@ -62,6 +76,17 @@ class Team extends Model
     {
         return $user->hasTeamPermission($this, $permission);
     }
+
+    /**
+     * 获取所有待处理的团队邀请.
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function teamInvitations()
+    {
+        return $this->hasMany(TeamInvitation::class);
+    }
+
 
     /**
      * 将用户移出团队.
@@ -97,16 +122,5 @@ class Team extends Model
 
         $this->delete();
     }
-
-    /**
-     * 获取团队的所有待处理用户邀请
-     *
-     * @return \Illuminate\Database\Eloquent\Relations\HasMany
-     */
-    public function teamInvitations()
-    {
-        return $this->hasMany(Jetstream::teamInvitationModel());
-    }
-
 
 }

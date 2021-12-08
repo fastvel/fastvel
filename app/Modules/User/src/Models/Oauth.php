@@ -12,6 +12,10 @@ class Oauth extends Model
 
     protected $table = 'user_oauth';
 
+    protected $casts = [
+        'raw_data' => 'json'
+    ];
+
 
     protected $fillable = [
         'openid', 'platform', 'access_token', 'refresh_token', 'expires_at', 'unionid', 'raw_data'

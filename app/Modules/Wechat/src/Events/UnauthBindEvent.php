@@ -8,34 +8,35 @@ use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
 use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Support\Facades\Log;
+use Imdgr886\User\Models\Oauth;
 use Imdgr886\User\Models\User;
 
 /**
  * 扫码登录
  */
-class ScanLoginEvent implements ShouldBroadcast
+class UnauthBindEvent implements ShouldBroadcast
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
-    public $user;
+    public $openid;
 
     public $key;
 
     /**
-     * @param User $user 用户
+     * @param $openId string 用户 的 opendi
      * @param $key string 扫码的 EventKey 场景值
      */
-    public function __construct(User $user, $key)
+    public function __construct($openid, $key)
     {
-        $this->user = $user;
+        $this->openid = $openid;
         $this->key = $key;
     }
 
     public function broadcastWith()
     {
         return [
-            'access_token' => auth('api')->login($this->user),
-            'user' => $this->user,
+            'openid' => $this->openid,
+            'oauth_type' => Oauth::WECHAT_MP,
         ];
     }
 

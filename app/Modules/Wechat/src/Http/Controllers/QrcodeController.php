@@ -22,4 +22,20 @@ class QrcodeController extends Controller
         $result['qr_url'] = 'https://mp.weixin.qq.com/cgi-bin/showqrcode?ticket='. $result['ticket'];
         return response()->json($result);
     }
+
+    /**
+     * 扫码绑定微信
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function bind()
+    {
+        $app = app('wechat.official_account');
+        $key = Snowflake::id();
+        // 24小时有效的二维码
+        $result = $app->qrcode->temporary("scan.bind:{$key}", 24 * 3600);
+        $result['success'] = true;
+        $result['key'] = $key;
+        $result['qr_url'] = 'https://mp.weixin.qq.com/cgi-bin/showqrcode?ticket='. $result['ticket'];
+        return response()->json($result);
+    }
 }

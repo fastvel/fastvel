@@ -2,7 +2,10 @@
 
 namespace App\Providers;
 
+use App\Observers\SnowflakeObserve;
 use Illuminate\Support\ServiceProvider;
+use Imdgr886\Team\Models\Team;
+use Imdgr886\User\Models\User;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -25,6 +28,7 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        //
+        User::observe(SnowflakeObserve::class);
+        // Team::observe(SnowflakeObserve::class);
     }
 }

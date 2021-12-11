@@ -30,7 +30,7 @@ class UserServiceProvider extends ServiceProvider
 
         $this->defineRoutes();
 
-        $this->publishes([__DIR__.'/../migrations' => database_path('migrations')], ['user', 'laravel-asset']);
+        $this->publishes([__DIR__.'/../migrations' => database_path('migrations')], ['user', 'laravel-assets']);
     }
 
     protected function defineRoutes()

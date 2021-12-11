@@ -14,6 +14,7 @@
         "imdgr886/order": "dev-master",
         "imdgr886/sms": "dev-master",
         "imdgr886/snowflake": "^0.1.1",
+        "imdgr886/team": "dev-master",
         "imdgr886/user": "dev-master",
         "imdgr886/wechat": "dev-master",
         "laravel/framework": "^8.65",
@@ -92,6 +93,10 @@
         {
             "type": "path",
             "url": "app/Modules/Wechat"
+        },
+        {
+            "type": "path",
+            "url": "app/Modules/Team"
         }
     ]
 }

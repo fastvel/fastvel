@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "087a9ab39223f34b41cace98346485f6",
+    "content-hash": "5f19a9f6e8599f69ee79dc6b277dbb32",
     "packages": [
         {
             "name": "asm89/stack-cors",
@@ -2144,6 +2144,38 @@
                 "source": "https://github.com/imdgr886/snowflake/tree/0.1.2"
             },
             "time": "2021-11-19T09:37:07+00:00"
+        },
+        {
+            "name": "imdgr886/team",
+            "version": "dev-master",
+            "dist": {
+                "type": "path",
+                "url": "app/Modules/Team",
+                "reference": "ec80d295cbb8de85fdcae01942c77e233547ada6"
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "\\Imdgr886\\Team\\TeamServiceProvider"
+                    ]
+                },
+                "installer-name": "Team"
+            },
+            "autoload": {
+                "psr-4": {
+                    "Imdgr886\\Team\\": "src/"
+                }
+            },
+            "authors": [
+                {
+                    "name": "imdgr886",
+                    "email": "thrall.chen@gmail.com"
+                }
+            ],
+            "transport-options": {
+                "relative": true
+            }
         },
         {
             "name": "imdgr886/user",
@@ -12252,6 +12284,7 @@
     "stability-flags": {
         "imdgr886/order": 20,
         "imdgr886/sms": 20,
+        "imdgr886/team": 20,
         "imdgr886/user": 20,
         "imdgr886/wechat": 20
     },

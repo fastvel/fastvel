@@ -1,0 +1,23 @@
+{
+    "name": "imdgr886/team",
+    "autoload": {
+        "psr-4": {
+            "Imdgr886\\Team\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "imdgr886",
+            "email": "thrall.chen@gmail.com"
+        }
+    ],
+    "require": {},
+    "extra": {
+        "laravel": {
+            "providers": [
+                "\\Imdgr886\\Team\\TeamServiceProvider"
+            ]
+        },
+        "installer-name": "Team"
+    }
+}

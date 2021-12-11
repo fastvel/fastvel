@@ -5,6 +5,7 @@ namespace Imdgr886\Team\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
 use Imdgr886\Team\Models\Team;
+use Imdgr886\User\Models\User;
 
 class TeamController extends Controller
 {
@@ -20,6 +21,9 @@ class TeamController extends Controller
             'name' => ['required', 'string', 'max:255'],
         ]);
 
+        /**
+         * @var $user User
+         */
         $user = auth('api')->user();
         $user->switchTeam($team = $user->ownedTeams()->create([
             'name' => $request->get('name'),

@@ -30,5 +30,6 @@ class AppServiceProvider extends ServiceProvider
     {
         User::observe(SnowflakeObserve::class);
         // Team::observe(SnowflakeObserve::class);
+        // Device::observe(SnowflakeObserve::class);
     }
 }

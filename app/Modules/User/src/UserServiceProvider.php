@@ -22,13 +22,14 @@ class UserServiceProvider extends ServiceProvider
 
     public function boot()
     {
-        if ($this->app->runningInConsole()) {
-            $this->commands([
-                Installer::class,
-            ]);
+        $this->defineRoutes();
+        if (!$this->app->runningInConsole()) {
+            return;
         }
 
-        $this->defineRoutes();
+        $this->commands([
+            Installer::class,
+        ]);
 
         $this->publishes([__DIR__.'/../migrations' => database_path('migrations')], ['user', 'laravel-assets']);
     }

@@ -24,8 +24,8 @@ class Scan
         // $newSubscribe = $data['Event'] == 'subscribe';
 
         // 扫码登录
-        if (Str::startsWith($eventKey, 'scan.login:')) {
-            $scene = str_replace('scan.login:', '', $eventKey);
+        if (Str::startsWith($eventKey, 'login:')) {
+            $scene = str_replace('login:', '', $eventKey);
             $userinfo = app('wechat.official_account')->user->get($data['FromUserName']);
             $unionid = @$userinfo['unionid'];
             if ($unionid) {

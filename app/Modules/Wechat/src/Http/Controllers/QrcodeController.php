@@ -16,7 +16,7 @@ class QrcodeController extends Controller
         $app = app('wechat.official_account');
         $key = Snowflake::id();
         // 24小时有效的二维码
-        $result = $app->qrcode->temporary("scan.login:{$key}", 24 * 3600);
+        $result = $app->qrcode->temporary("login:{$key}", 24 * 3600);
         $result['success'] = true;
         $result['key'] = $key;
         $result['qr_url'] = 'https://mp.weixin.qq.com/cgi-bin/showqrcode?ticket='. $result['ticket'];
@@ -32,9 +32,23 @@ class QrcodeController extends Controller
         $app = app('wechat.official_account');
         $key = Snowflake::id();
         // 24小时有效的二维码
-        $result = $app->qrcode->temporary("scan.bind:{$key}", 24 * 3600);
+        $result = $app->qrcode->temporary("bind:{$key}", 24 * 3600);
         $result['success'] = true;
         $result['key'] = $key;
+        $result['qr_url'] = 'https://mp.weixin.qq.com/cgi-bin/showqrcode?ticket='. $result['ticket'];
+        return response()->json($result);
+    }
+
+    /**
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function teamInvitation()
+    {
+        $app = app('wechat.official_account');
+        $key = Snowflake::id();
+        // 24小时有效的二维码
+        $result = $app->qrcode->temporary("team_invitation:{$key}", 24 * 3600);
+        $result['success'] = true;
         $result['qr_url'] = 'https://mp.weixin.qq.com/cgi-bin/showqrcode?ticket='. $result['ticket'];
         return response()->json($result);
     }

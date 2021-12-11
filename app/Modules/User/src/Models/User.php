@@ -18,7 +18,11 @@ class User extends \Illuminate\Foundation\Auth\User implements JWTSubject, MustV
     ];
 
     protected $fillable = [
-        'name', 'email', 'mobile', 'password', 'avatar', 'current_team_id'
+        'name', 'email', 'mobile', 'password', 'avatar'
+    ];
+
+    protected $appends = [
+        //'current_team'
     ];
 
     ##### Jwt 契约 start #####

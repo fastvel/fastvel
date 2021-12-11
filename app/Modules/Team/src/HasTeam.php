@@ -74,7 +74,7 @@ trait HasTeam
     }
 
     /**
-     * Get all of the teams the user belongs to.
+     * 获取用户所属的所有团队.
      *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
      */
@@ -97,7 +97,7 @@ trait HasTeam
     }
 
     /**
-     * Determine if the user owns the given team.
+     * 判断用户是否是指定的团队的拥有者.
      *
      * @param  mixed  $team
      * @return bool
@@ -112,7 +112,7 @@ trait HasTeam
     }
 
     /**
-     * Determine if the user belongs to the given team.
+     * 判断用户是否属于某个团队
      *
      * @param  mixed  $team
      * @return bool

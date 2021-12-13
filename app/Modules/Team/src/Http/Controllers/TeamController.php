@@ -77,4 +77,9 @@ class TeamController extends Controller
         $team = Team::query()->findOrFail($request->team_id);
         auth('api')->user()->switchTeam($team);
     }
+
+    public function allTeams(Request $request)
+    {
+        return response()->json(auth('api')->user()->allTeams());
+    }
 }

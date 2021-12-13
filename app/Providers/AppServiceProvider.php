@@ -29,7 +29,7 @@ class AppServiceProvider extends ServiceProvider
     public function boot()
     {
         User::observe(SnowflakeObserve::class);
-        // Team::observe(SnowflakeObserve::class);
+        Team::observe(SnowflakeObserve::class);
         // Device::observe(SnowflakeObserve::class);
     }
 }

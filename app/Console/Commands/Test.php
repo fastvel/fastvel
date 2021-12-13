@@ -45,7 +45,6 @@ class Test extends Command
      */
     public function handle()
     {
-
         //Oauth::query()->where(['openid' => 'oyw8o63Azs6LfSKR-PrLauITWhQw', 'platform' => Oauth::WECHAT_MP])->first();
         event(new ScanLoginEvent(User::first(), '5597230415872'));
         return;

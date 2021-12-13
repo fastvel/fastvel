@@ -32,6 +32,11 @@ trait HasTeam
         return $this->belongsTo(Team::class, 'current_team_id');
     }
 
+    public function getCurrentTeamAttribute()
+    {
+        return $this->currentTeam()->first();
+    }
+
     /**
      * Switch the user's context to the given team.
      *
@@ -60,7 +65,7 @@ trait HasTeam
      */
     public function allTeams()
     {
-        return $this->ownedTeams->merge($this->teams)->sortBy('name');
+        return $this->ownedTeams->merge($this->teams)->sortBy('created_at');
     }
 
     /**

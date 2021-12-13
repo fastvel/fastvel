@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Route;
 use Illuminate\Support\ServiceProvider;
 use Imdgr886\Team\Command\InstallCommand;
 use Imdgr886\Team\Http\Controllers\InvitationController;
+use Imdgr886\Team\Http\Controllers\TeamController;
 use Imdgr886\Team\Listeners\CreatePersonalTeam;
 use Imdgr886\User\Models\User;
 
@@ -38,6 +39,8 @@ class TeamServiceProvider extends ServiceProvider
         // api
         Route::middleware(['api'])->prefix('api')->group(function () {
             Route::put('/team/{team}/invite-token', InvitationController::class . '@resetLink');
+            Route::get('/team/current-team', TeamController::class . '@currentTeam');
+            Route::get('/teams', TeamController::class . '@allTeams');
         });
     }
 }

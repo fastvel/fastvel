@@ -3,6 +3,8 @@
 namespace Imdgr886\User\Http\Controllers;
 
 use Illuminate\Routing\Controller;
+use Imdgr886\Team\TeamServiceProvider;
+use Imdgr886\User\Models\User;
 
 class ProfileController extends Controller
 {
@@ -13,6 +15,11 @@ class ProfileController extends Controller
      */
     public function me()
     {
-        return response()->json(auth('api')->user());
+        /**
+         * @var $user User
+         */
+        $user = auth('api')->user();
+
+        return response()->json($user);
     }
 }

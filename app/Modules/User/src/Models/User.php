@@ -2,6 +2,7 @@
 
 namespace Imdgr886\User\Models;
 
+use App\HasShopWithTeam;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Notifications\Notifiable;
@@ -10,7 +11,7 @@ use Tymon\JWTAuth\Contracts\JWTSubject;
 
 class User extends \Illuminate\Foundation\Auth\User implements JWTSubject, MustVerifyEmail
 {
-    use Notifiable, HasTeam;
+    use Notifiable, HasTeam, HasShopWithTeam;
 
     protected $hidden = [
         'password',
@@ -22,7 +23,7 @@ class User extends \Illuminate\Foundation\Auth\User implements JWTSubject, MustV
     ];
 
     protected $appends = [
-        //'current_team'
+        'current_team'
     ];
 
     ##### Jwt 契约 start #####
@@ -52,5 +53,4 @@ class User extends \Illuminate\Foundation\Auth\User implements JWTSubject, MustV
     {
         return $this->hasMany(Oauth::class);
     }
-
 }

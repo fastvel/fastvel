@@ -189,7 +189,7 @@ class Sms
         return $randomString;
     }
 
-    public function checkInterval(string $mobile, $scenes)
+    public function checkInterval(string $mobile, $scenes = '')
     {
         $state = $this->getState($mobile);
         $lastSent = Arr::get($state, "lastsent.{$scenes}");

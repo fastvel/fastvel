@@ -66,7 +66,7 @@ class UserServiceProvider extends ServiceProvider
                 Route::post('/mobile-verify-code', Controllers\ConfirmableMobileController::class . '@sendVerifyCode');
                 Route::post('/mobile-confirmation', Controllers\ConfirmableMobileController::class . '@handle');
 
-                // 修改面膜
+                // 修改密码
                 Route::post('/reset-password', Controllers\ResetPasswordController::class. '@handle');
             });
 

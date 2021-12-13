@@ -65,7 +65,7 @@ trait HasTeam
      */
     public function allTeams()
     {
-        return $this->ownedTeams->merge($this->teams)->sortBy('created_at');
+        return $this->ownedTeams->merge($this->teams)->sortByDesc('id');
     }
 
     /**

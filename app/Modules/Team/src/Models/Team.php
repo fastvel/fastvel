@@ -7,6 +7,8 @@ use Imdgr886\User\Models\User;
 
 class Team extends Model
 {
+    protected $fillable = ['name', 'personal_team', 'invite_link'];
+
     /**
      * 获取 team 的所有者.
      *

@@ -25,16 +25,29 @@ class DeviceController extends Controller
             'proxy_port' => ['required', 'numeric'],
             'proxy_type' => ['required'],
             'proxy_user' => ['string'],
-            'proxy_password' => ['string'],
+            'proxy_pass' => ['string'],
+        ], [
+            'attributes' => [
+                'ip' => '代理地址',
+                'proxy_port' => '代理端口',
+                'proxy_type' => '代理类型',
+                'proxy_user' => '认证用户',
+                'proxy_pass' => '认证密码',
+            ]
         ]);
 
         return Device::create(array_merge(
             $request->all(),
-            ['type' => Type::SelfHost]
+            ['provider' => Type::SelfHost]
         ));
     }
 
     public function all()
+    {
+        return Device::query()->paginate();
+    }
+
+    public function checkProxy()
     {
 
     }

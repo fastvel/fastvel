@@ -41,6 +41,7 @@ class TeamServiceProvider extends ServiceProvider
             Route::put('/team/{team}/invite-token', InvitationController::class . '@resetLink');
             Route::get('/team/current-team', TeamController::class . '@currentTeam');
             Route::get('/teams', TeamController::class . '@allTeams');
+            Route::post('/team', TeamController::class . '@create');
         });
     }
 }

@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
 use Imdgr886\Team\Models\Team;
 use Imdgr886\User\Models\User;
+use Ramsey\Uuid\Uuid;
 
 class TeamController extends Controller
 {
@@ -28,6 +29,7 @@ class TeamController extends Controller
         $user->switchTeam($team = $user->ownedTeams()->create([
             'name' => $request->get('name'),
             'personal_team' => false,
+            'invite_link' => str_replace('-', '', Uuid::uuid1())
         ]));
 
         return response()->json([

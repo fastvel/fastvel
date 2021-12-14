@@ -23,7 +23,7 @@ class User extends \Illuminate\Foundation\Auth\User implements JWTSubject, MustV
     ];
 
     protected $appends = [
-        'current_team'
+
     ];
 
     ##### Jwt 契约 start #####

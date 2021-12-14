@@ -24,6 +24,10 @@ class TeamServiceProvider extends ServiceProvider
         // 用户注册后，要生成团队
         Event::listen(Registered::class, CreatePersonalTeam::class);
         $this->defineRoutes();
+
+        User::retrieved(function (User $user) {
+            $user->append('current_team');
+        });
         if (!$this->app->runningInConsole()) {
             return;
         }
@@ -42,6 +46,7 @@ class TeamServiceProvider extends ServiceProvider
             Route::get('/team/current-team', TeamController::class . '@currentTeam');
             Route::get('/teams', TeamController::class . '@allTeams');
             Route::post('/team', TeamController::class . '@create');
+            Route::put('/team/switch/{team}', TeamController::class . '@switchTeam');
         });
     }
 }

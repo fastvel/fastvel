@@ -74,9 +74,9 @@ class TeamController extends Controller
         return $this->redirectPath($deleter);
     }
 
-    public function switchTeam(Request $request)
+    public function switchTeam(Request $request, Team $team)
     {
-        $team = Team::query()->findOrFail($request->team_id);
+        // $team = Team::query()->findOrFail($request->team_id);
         auth('api')->user()->switchTeam($team);
     }
 

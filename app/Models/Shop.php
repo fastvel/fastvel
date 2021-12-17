@@ -9,6 +9,10 @@ class Shop extends Model
 {
     use HasFactory;
 
+    protected $fillable = [
+        'team_id', 'name', 'platform', 'account', 'password', 'device_id'
+    ];
+
     public function device()
     {
         return $this->belongsTo(Device::class);

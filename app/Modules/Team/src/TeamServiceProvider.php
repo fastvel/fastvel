@@ -41,12 +41,19 @@ class TeamServiceProvider extends ServiceProvider
     protected function defineRoutes()
     {
         // api
-        Route::middleware(['api'])->prefix('api')->group(function () {
+        Route::middleware(['api', 'auth:api'])->prefix('api')->group(function () {
             Route::put('/team/{team}/invite-token', InvitationController::class . '@resetLink');
             Route::get('/team/current-team', TeamController::class . '@currentTeam');
             Route::get('/teams', TeamController::class . '@allTeams');
             Route::post('/team', TeamController::class . '@create');
             Route::put('/team/switch/{team}', TeamController::class . '@switchTeam');
+
+            Route::get('/team-invitations/{invitation}', InvitationController::class. '@accept')
+                ->middleware('signed')
+                ->name('team-invitations.accept');
+
+            Route::delete('/team-invitations/{invitation}', [TeamInvitationController::class, 'destroy'])
+                ->name('team-invitations.destroy');
         });
     }
 }

@@ -3,6 +3,7 @@
 namespace Imdgr886\Team\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Imdgr886\User\Models\User;
 
 class TeamInvitation extends Model
 {
@@ -24,5 +25,10 @@ class TeamInvitation extends Model
     public function team()
     {
         return $this->belongsTo(Team::class);
+    }
+
+    public function user()
+    {
+        return $this->belongsTo(User::class);
     }
 }

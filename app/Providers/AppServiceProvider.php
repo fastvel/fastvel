@@ -2,6 +2,7 @@
 
 namespace App\Providers;
 
+use App\Models\Shop;
 use App\Observers\SnowflakeObserve;
 use Illuminate\Support\ServiceProvider;
 use Imdgr886\Team\Models\Team;

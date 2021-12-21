@@ -8,21 +8,27 @@
 namespace App\Http\Controllers;
 
 use App\Models\Shop;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
 use Illuminate\Validation\Rule;
+use Imdgr886\Team\Models\Team;
 
 class ShopController extends Controller
 {
-    public function list()
+    public function list(Request $request, Team $team)
     {
-        return auth('api')->user()->shops()->paginate();
+        $perPage = $request->get('per_page', 20);
+        $shopes = Shop::query()->where('team_id', $team->id) ->paginate($perPage);
+
+        return response()->json($shopes);
     }
 
     public function createCheck(Request $request)
     {
         $request->validate([
             'team_id' => ['required', 'exists:teams,id'],
+            'device_id' => ['required', 'exists:devices,id'],
             'name' => [
                 'required',
                 Rule::unique('shops')->where('team_id', $request->get('team_id'))
@@ -33,17 +39,30 @@ class ShopController extends Controller
             'tag' => ['array']
 
         ], [], [
-            'team_id' => '团队',
             'name' => '店铺名称',
+            'team_id' => '团队',
             'platform' => '所属平台',
             'account' => '登录账号',
             'password' => '登录密码'
         ]);
-        Shop::create(array_merge($request->all(), ['device_id' => 1]));
     }
 
     public function store(Request $request)
     {
         $this->createCheck($request);
+        $shop = Shop::create($request->all());
+        return response()->json($shop);
+    }
+
+    /**
+     * 用户所有可用的店铺
+     * @return JsonResponse
+     */
+    public function allShopes(Request $request, Team $team)
+    {
+        $perPage = $request->get('per_page');
+        $shopes = Shop::query()->paginate($perPage);
+
+        return response()->json($shopes);
     }
 }

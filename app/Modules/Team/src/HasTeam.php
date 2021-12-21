@@ -204,7 +204,7 @@ trait HasTeam
             return true;
         }
 
-        if (! $this->belongsToTeam($team)) {
+        if (!$this->belongsToTeam($team)) {
             return false;
         }
 

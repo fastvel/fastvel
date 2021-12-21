@@ -15,8 +15,7 @@ class CreateDevices extends Migration
     {
         Schema::create('devices', function (Blueprint $table) {
             $table->id();
-            $table->string('provider')->comment('提供商');
-            $table->string('instance_id')->nullable()->comment('提供商的实例 id');
+            $table->foreignId('team_id');
             $table->string('ip');
             $table->string('proxy_type');
             $table->string('proxy_port');
@@ -26,6 +25,7 @@ class CreateDevices extends Migration
             $table->string('remote_user')->nullable()->comment('远程桌面用户');
             $table->string('remote_pass')->nullable()->comment('远程桌面密码');
             $table->string('status')->nullable();
+            $table->timestampTz('expires_at')->nullable()->comment('到期日期');
             $table->timestamps();
             $table->softDeletes();
         });

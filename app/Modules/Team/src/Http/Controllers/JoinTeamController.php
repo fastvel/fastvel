@@ -20,7 +20,7 @@ class JoinTeamController extends Controller
     public function join(Request $request)
     {
         $request->validate([
-            'team_id'
+            'team_id' => ['requried', 'exists:teams,id']
         ]);
     }
 }

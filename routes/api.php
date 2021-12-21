@@ -19,9 +19,9 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 });
 
 Route::group(['middleware' => 'auth:api'], function () {
-    Route::get('/shops', \App\Http\Controllers\ShopController::class.'@list');
-    Route::post('/shop/create/check', \App\Http\Controllers\ShopController::class. '@createCheck');
-    Route::get('/devices', \App\Http\Controllers\DeviceController::class.'@all');
+    Route::get('/shops/t/{team}', \App\Http\Controllers\ShopController::class.'@list');
+    Route::post('/shop/create', \App\Http\Controllers\ShopController::class. '@store');
+    Route::get('/devices/t/{team}', \App\Http\Controllers\DeviceController::class.'@all');
 
     Route::post('/device/self-host', \App\Http\Controllers\DeviceController::class . '@createSelfHost');
 });

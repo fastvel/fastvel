@@ -11,7 +11,7 @@ class Device extends Model
     use HasFactory;
 
     protected $fillable = [
-        'ip', 'proxy_port', 'proxy_type', 'proxy_user', 'proxy_pass', 'provider'
+        'ip', 'proxy_port', 'proxy_type', 'proxy_user', 'proxy_pass', 'provider', 'team_id'
     ];
 
     protected $hidden = ['proxy_pass', 'remote_pass'];

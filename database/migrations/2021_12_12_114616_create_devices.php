@@ -26,6 +26,10 @@ class CreateDevices extends Migration
             $table->string('remote_pass')->nullable()->comment('远程桌面密码');
             $table->string('status')->nullable();
             $table->timestampTz('expires_at')->nullable()->comment('到期日期');
+            $table->string('provider')->comment('设备提供商');
+            $table->string('instance_id')->nullable()->comment('提供商的设备 id');
+            $table->string('os')->nullable()->comment('操作系统');
+            $table->string('instance_model')->nullable()->comment('机型');
             $table->timestamps();
             $table->softDeletes();
         });

@@ -99,7 +99,7 @@ class Sms
     public function sendVerify(string $mobile, $scenes = '')
     {
         $state = $this->getState($mobile);
-        if (!empty($state) && $state['deadline'][$scenes] >= time() + 60) {
+        if (!empty($state['deadline'][$scenes]) && $state['deadline'][$scenes] >= time() + 60) {
             $code = Arr::get($state, "code.{$scenes}");
         } else {
             $code = $this->generateVerifyCode();

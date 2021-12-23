@@ -43,11 +43,16 @@ class TeamController extends Controller
      *
      * @param  \Illuminate\Http\Request  $request
      * @param  int  $teamId
-     * @return \Illuminate\Http\RedirectResponse
+     * @return \Illuminate\Http\JsonResponse
      */
-    public function update(Request $request, $teamId)
+    public function rename(Request $request, Team $team)
     {
-        $team = Team::query()->findOrFail($teamId);
+        $request->validate([
+            'name' => ['required', 'string', 'max:255']
+        ]);
+        $team->name = $request->get('name');
+        $team->save();
+        return response()->json($team);
 
 //        app(UpdatesTeamNames::class)->update($request->user(), $team, $request->all());
 //
@@ -82,6 +87,6 @@ class TeamController extends Controller
 
     public function allTeams(Request $request)
     {
-        return response()->json(auth('api')->user()->allTeams());
+        return response()->json(auth('api')->user()->allTeams()->toArray());
     }
 }

@@ -18,16 +18,32 @@ class ShopController extends Controller
 {
     public function list(Request $request, Team $team)
     {
-        $perPage = $request->get('per_page', 20);
-        $shopes = Shop::query()->where('team_id', $team->id) ->paginate($perPage);
-
+        $perPage = $request->get('per_page');
+        $shopes = Shop::query()
+            ->with('device')
+            ->orderByDesc('created_at')->paginate($perPage);
         return response()->json($shopes);
+    }
+
+    /**
+     * 团队设备的总数
+     * @param Request $request
+     * @param Team $team
+     * @return JsonResponse
+     */
+    public function total(Team $team)
+    {
+        $count = Shop::query()->where('team_id', $team->id)->count();
+        return response()->json([
+            'success'=> true,
+            'total' => $count
+        ]);
     }
 
     public function createCheck(Request $request)
     {
         $request->validate([
-            'team_id' => ['required', 'exists:teams,id'],
+            //'team_id' => ['required', 'exists:teams,id'],
             'device_id' => ['required', 'exists:devices,id'],
             'name' => [
                 'required',
@@ -47,10 +63,12 @@ class ShopController extends Controller
         ]);
     }
 
-    public function store(Request $request)
+    public function store(Request $request, Team $team)
     {
         $this->createCheck($request);
-        $shop = Shop::create($request->all());
+        $data = $request->all();
+        $data['team_id'] = $team->id;
+        $shop = Shop::create($data);
         return response()->json($shop);
     }
 
@@ -61,8 +79,10 @@ class ShopController extends Controller
     public function allShopes(Request $request, Team $team)
     {
         $perPage = $request->get('per_page');
-        $shopes = Shop::query()->paginate($perPage);
+        $shopes = Shop::query()
+            ->with('device')
+            ->orderByDesc('created_at')->paginate($perPage);
 
-        return response()->json($shopes);
+        return response()->json($shopes->toArray());
     }
 }

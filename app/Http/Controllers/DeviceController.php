@@ -19,12 +19,12 @@ class DeviceController extends Controller
      * 创建自己搭建的代理设备
      * @return void
      */
-    public function createSelfHost(Request $request)
+    public function createSelfHost(Request $request, Team $team)
     {
         $request->validate([
-            'ip' => ['required', 'ip', 'unique'],
+            'ip' => ['required', 'ip', 'unique:devices,ip'],
             'proxy_port' => ['required', 'numeric'],
-            'team_id' => ['required', 'exists:teams,id'],
+            // 'team_id' => ['required', 'exists:teams,id'],
             'proxy_type' => ['required'],
             'proxy_user' => ['string'],
             'proxy_pass' => ['string'],
@@ -41,13 +41,13 @@ class DeviceController extends Controller
 
         return Device::create(array_merge(
             $request->all(),
-            ['provider' => Type::SelfHost]
+            ['provider' => Type::SelfHost, 'team_id' => $team->id]
         ));
     }
 
-    public function all(Request $request)
+    public function all(Request $request, Team $team)
     {
-        $query = Device::query();//->where('team_id', $team->id);
+        $query = Device::query()->where('team_id', $team->id)->orderByDesc('created_at');
         return $query->paginate();
     }
 
@@ -69,6 +69,19 @@ class DeviceController extends Controller
         ]);
     }
 
-
+    /**
+     * 团队的设备总数
+     * @param Request $request
+     * @param Team $team
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function total(Team $team)
+    {
+        $count = Device::query()->where('team_id', $team->id)->count();
+        return response()->json([
+            'success'=> true,
+            'total' => $count
+        ]);
+    }
 
 }

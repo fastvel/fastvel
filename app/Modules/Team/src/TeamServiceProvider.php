@@ -25,9 +25,14 @@ class TeamServiceProvider extends ServiceProvider
         Event::listen(Registered::class, CreatePersonalTeam::class);
         $this->defineRoutes();
 
+        // 用户需要接口要暴露 current_team;
         User::retrieved(function (User $user) {
             $user->append('current_team');
         });
+        User::created(function (User $user) {
+            $user->append('current_team');
+        });
+
         if (!$this->app->runningInConsole()) {
             return;
         }
@@ -47,6 +52,7 @@ class TeamServiceProvider extends ServiceProvider
             Route::get('/teams', TeamController::class . '@allTeams');
             Route::post('/team', TeamController::class . '@create');
             Route::put('/team/switch/{team}', TeamController::class . '@switchTeam');
+            Route::put('/team/{team}/name', TeamController::class . '@rename');
 
             Route::get('/team-invitations/{invitation}', InvitationController::class. '@accept')
                 ->middleware('signed')

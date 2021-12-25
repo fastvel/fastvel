@@ -28,4 +28,7 @@ Route::group(['middleware' => 'auth:api'], function () {
     Route::get('/t/{team}/devices', \App\Http\Controllers\DeviceController::class.'@all');
     Route::get('/t/{team}/devices/total', \App\Http\Controllers\DeviceController::class.'@total');
     Route::post('/t/{team}/device/self-host/create', \App\Http\Controllers\DeviceController::class . '@createSelfHost');
+
+    //
+    Route::get('/plans', \App\Http\Controllers\PlanController::class.'@all');
 });

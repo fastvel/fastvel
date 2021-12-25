@@ -9,6 +9,6 @@ class PlanController extends Controller
 {
     public function all()
     {
-
+        return DevicePlan::query()->with('region')->get()->all();
     }
 }

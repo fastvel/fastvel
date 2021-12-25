@@ -21,17 +21,17 @@ class RegionSeeder extends Seeder
 //            ['code' => 'cn-chengdu', 'name' => '成都', 'group' => '中国大陆'],
 
             ['code' => 'us', 'name' => '美国', 'group' => '欧美'],
-            ['code' => 'de', 'name' => '德国(法兰克福)', 'group' => '欧美'],
-            ['code' => 'fr', 'name' => '法国(巴黎)', 'group' => '欧美'],
-            ['code' => 'gb', 'name' => '英国(伦敦)', 'group' => '欧美'],
+            ['code' => 'de', 'name' => '德国', 'group' => '欧美'],
+            ['code' => 'fr', 'name' => '法国', 'group' => '欧美'],
+            ['code' => 'gb', 'name' => '英国', 'group' => '欧美'],
             // ['code' => 'it', 'name' => '意大利(米兰)', 'group' => '欧美'],
 
-            ['code' => 'jp', 'name' => '日本(东京)', 'group' => '亚太与中东'],
-            ['code' => 'kr', 'name' => '韩国(首尔)', 'group' => '亚太与中东'],
-            ['code' => 'au', 'name' => '澳大利亚(悉尼)', 'group' => '亚太与中东'],
+            ['code' => 'jp', 'name' => '日本', 'group' => '亚太与中东'],
+            ['code' => 'kr', 'name' => '韩国', 'group' => '亚太与中东'],
+            ['code' => 'au', 'name' => '澳大利亚', 'group' => '亚太与中东'],
             ['code' => 'sg', 'name' => '新加坡', 'group' => '亚太与中东'],
-            ['code' => 'ae', 'name' => '阿联酋(迪拜)', 'group' => '亚太与中东'],
-            ['code' => 'in', 'name' => '印度(孟买)', 'group' => '亚太与中东'],
+            ['code' => 'in', 'name' => '印度', 'group' => '亚太与中东'],
+            ['code' => 'ae', 'name' => '阿联酋', 'group' => '亚太与中东'],
         ];
         DB::table('regions')->insert($regions);
     }

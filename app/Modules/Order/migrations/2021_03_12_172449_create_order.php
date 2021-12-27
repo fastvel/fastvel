@@ -16,16 +16,12 @@ class CreateOrder extends Migration
         Schema::create('orders', function (Blueprint $table) {
             $table->id();
             $table->foreignId('user_id')->references('id')->on('users');
-            $table->string('subject');
-            $table->string('description', 1000)->nullable();
             $table->decimal('items_total')->default(0)->comment('原始总金额');
             $table->decimal('discount_amount')->default(0)->comment('优惠金额');
             $table->decimal('order_amount')->default(0)->comment('订单应支付金额');
             $table->decimal('paid_amount')->default(0)->comment('已支付金额');
-            $table->unsignedBigInteger('transaction_id')->nullable()->comment('交易号');
             $table->string('invoice_no')->nullable()->comment('发票号');
-            $table->string('status')->default('pending')->comment("'pending', 'paid', 'canceled', 'refunded', 'partial_refund'");
-            $table->boolean('is_paid')->default(false);
+            $table->string('status')->default('pending');
             $table->timestampTz('paid_at')->nullable();
             $table->ipAddress('ip')->nullable();
             $table->string('source')->nullable()->comment('订单来源');
@@ -85,7 +81,7 @@ class CreateOrder extends Migration
                 ->default('pending')
                 ->comment('pending：待审批，approved：审批通过，refunding：退款中，refunded：已退款');
             $table->timestampTz('approved_at')->nullable();
-            $table->unsignedInteger('approved_by')->nullable();
+            $table->morphs('approved_by')->nullable();
             $table->string('comment', 1000)->nullable();
             $table->timestampTz('refunded_at')->nullable()->comment('退款成功时间');
             $table->morphs('apply_by');

@@ -66,15 +66,6 @@ class Order extends Model
 
     protected $hidden = ['pivot'];
 
-    public static function booted()
-    {
-        static::creating(function ($order) {
-            if (!$order->id) {
-                $order->id = app('snowflake')->id();
-            }
-        });
-    }
-
     public function getStatusLabelAttribute()
     {
         return @self::$statusLabels[$this->status];
@@ -89,11 +80,6 @@ class Order extends Model
     {
         return $this->hasOne(OrderTransaction::class, 'order_id', 'id')->whereNotNull('paid_at')->orderByDesc('id');
     }
-
-    //    public function transaction()
-    //    {
-    //        return $this->belongsTo(OrderTransaction::class, 'transaction_id', 'id');
-    //    }
 
     public function transactions(): HasMany
     {
@@ -165,30 +151,6 @@ class Order extends Model
     public function scopeUser($query)
     {
         return $query->where('user_id', auth()->id());
-    }
-
-    /**
-     * 获取订单包含的服务种类
-     * @return array
-     */
-    public function getOrderServices()
-    {
-        $items = $this->items;
-        $services = [];
-
-        foreach ($items as $item) {
-            $product = $item->product;
-            if ($product instanceof PlansCombos) {
-                $plans = $product->plans;
-                foreach ($plans as $plan) {
-                    $services[] = $plan->plan_type;
-                }
-            } elseif ($product instanceof Plan) {
-                $services[] = $product->plan_type;
-            }
-        }
-        $services = array_unique($services);
-        return $services;
     }
 
 

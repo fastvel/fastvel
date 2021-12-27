@@ -13,5 +13,7 @@ interface OrderItemInterface
 
     public function getName();
 
+    public function getItemAmount($qty = 1);
+
     public function getPrimaryKeyValue();
 }

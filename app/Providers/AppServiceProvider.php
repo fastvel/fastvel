@@ -2,9 +2,9 @@
 
 namespace App\Providers;
 
-use App\Models\Shop;
 use App\Observers\SnowflakeObserve;
 use Illuminate\Support\ServiceProvider;
+use Imdgr886\Order\Models\Order;
 use Imdgr886\Team\Models\Team;
 use Imdgr886\User\Models\User;
 
@@ -17,9 +17,6 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register()
     {
-//        if ($this->app->isLocal()) {
-//            $this->app->register(TelescopeServiceProvider::class);
-//        }
     }
 
     /**
@@ -31,6 +28,7 @@ class AppServiceProvider extends ServiceProvider
     {
         User::observe(SnowflakeObserve::class);
         Team::observe(SnowflakeObserve::class);
+        Order::observe(SnowflakeObserve::class);
         // Device::observe(SnowflakeObserve::class);
     }
 }

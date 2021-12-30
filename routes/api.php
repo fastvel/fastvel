@@ -32,6 +32,8 @@ Route::group(['middleware' => 'auth:api'], function () {
     //
     Route::get('/plans', \App\Http\Controllers\PlanController::class.'@all');
 
-    // plance order
-    Route::post('/order', \App\Http\Controllers\OrderController::class.'@create');
+    // place order
+    Route::post('/t/{team}/order', \App\Http\Controllers\OrderController::class.'@create');
+    Route::get('/t/{team}/orders', \App\Http\Controllers\OrderController::class.'@list');
+    Route::get('orders/{order}', \App\Http\Controllers\OrderController::class.'@detail');
 });

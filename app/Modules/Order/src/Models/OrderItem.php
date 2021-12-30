@@ -15,22 +15,19 @@ use Imdgr886\Order\OrderItemInterface;
 class OrderItem extends Model
 {
 
-    const ORDER_TYPE_NEW = 0;
-    const ORDER_TYPE_RENEW = 1;
-    const ORDER_TYPE_OTHER = 2;
+    const ORDER_TYPE_NEW = 'new';
+    const ORDER_TYPE_RENEW = 'renew';
 
     public $timestamps = false;
-    protected $primaryKey = null;
     public $incrementing = false;
-    protected $table = 'order_items';
 
     public $fillable = [
-        'price', 'quantity', 'name', 'total', 'item_type', 'item_id', 'service_number', 'order_type', 'discounted_price'
+        'price', 'qty', 'name', 'total', 'product_type', 'product_id', 'order_type'
     ];
 
     public function product(): MorphTo
     {
-        return $this->morphTo(__FUNCTION__, 'item_type', 'item_id');
+        return $this->morphTo();
     }
 
     public function order(): BelongsTo
@@ -38,9 +35,4 @@ class OrderItem extends Model
         return $this->belongsTo(Order::class);
     }
 
-//    public function setProductAttribute(OrderItemInterface $product)
-//    {
-//        $this->item_type = get_class($product);
-//        $this->item_id = $product->getPrimaryKeyValue();
-//    }
 }

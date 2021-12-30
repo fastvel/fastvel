@@ -13,12 +13,6 @@ class PlanSeeder extends Seeder
         $regions = Region::all()->pluck('id');
         foreach ($regions as $regionId) {
 
-                DB::table('device_plans')->insert([
-                    'duration' => 1,
-                    'region_id' => $regionId,
-                    'provider' => 'aliyun',
-                    'price' => 58
-                ]);
             DB::table('device_plans')->insert([
                 'duration' => 1,
                 'region_id' => $regionId,

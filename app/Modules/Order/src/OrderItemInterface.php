@@ -9,11 +9,9 @@ namespace Imdgr886\Order;
 
 interface OrderItemInterface
 {
-    public function getPrice();
+    public function getPrice(array $options = []);
 
-    public function getName();
+    public function getName(array $options = []);
 
-    public function getItemAmount($qty = 1);
-
-    public function getPrimaryKeyValue();
+    public function getProductAmount($qty = 1, array $options = []);
 }

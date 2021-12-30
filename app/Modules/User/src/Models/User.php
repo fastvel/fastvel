@@ -6,12 +6,13 @@ use App\HasShopWithTeam;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Notifications\Notifiable;
+use Imdgr886\Order\Traits\CanPlaceOrder;
 use Imdgr886\Team\HasTeam;
 use Tymon\JWTAuth\Contracts\JWTSubject;
 
 class User extends \Illuminate\Foundation\Auth\User implements JWTSubject, MustVerifyEmail
 {
-    use Notifiable, HasTeam, HasShopWithTeam;
+    use Notifiable, HasTeam, HasShopWithTeam, CanPlaceOrder;
 
     protected $hidden = [
         'password',

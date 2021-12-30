@@ -110,7 +110,7 @@ class NotifyController extends Controller
             $trans->trade_no = $tradeNo;
             $trans->save();
 
-            if ($order->is_paid) {
+            if ($order->paid_at) {
                 if ($order->transaction_id != $transId) {
                     // 重复支付
                     $order->addHistory('重复支付');
@@ -118,20 +118,19 @@ class NotifyController extends Controller
                 throw new \Exception('重复支付');
             }
 
-            $order->is_paid = true;
             $order->transaction_id = $transId;
             $order->paid_amount += $paidAmount;
             $order->paid_at = $paidAt;
             $order->status = 'paid';
             $order->save();
-            event(new OrderPaidEvent($order));
+            
             $order->addHistory('支付成功');
             DB::commit();
         } catch (\Exception $e) {
             DB::rollBack();
             throw $e;
         }
-
+        event(new OrderPaidEvent($order));
 
     }
 

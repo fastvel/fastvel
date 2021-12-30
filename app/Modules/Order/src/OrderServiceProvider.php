@@ -9,9 +9,6 @@
 namespace Imdgr886\Order;
 
 use Encore\Admin\Admin;
-use Godruoyi\Snowflake\LaravelSequenceResolver;
-use Godruoyi\Snowflake\Snowflake;
-use Illuminate\Routing\Router;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\ServiceProvider;
 use Imdgr886\Order\Models\OrderRefund;
@@ -51,9 +48,9 @@ class OrderServiceProvider extends ServiceProvider
 
     protected function routes()
     {
-        Route::group(['middleware' => ['web']],  function () {
-            Route::get('/order/{order}/alipay', 'Imdgr886\Order\Controllers\PayController@alipay')->name('alipay-pay');
-            Route::get('/order/{order}/wechat', 'Imdgr886\Order\Controllers\PayController@wechat')->name('wechat-pay');
+        Route::middleware(['api'])->prefix('api')->group(function () {
+            Route::post('/pay/order/{order}/alipay', 'Imdgr886\Order\Controllers\PayController@alipay')->name('alipay-pay');
+            Route::post('/pay/order/{order}/wechat', 'Imdgr886\Order\Controllers\PayController@wechat')->name('wechat-pay');
         });
 
         Route::post('/payment/notify/alipay', 'Imdgr886\Order\Controllers\NotifyController@alipay')->name('alipay-notify');

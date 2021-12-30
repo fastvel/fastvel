@@ -3,19 +3,19 @@
 return [
     'alipay' => [
         // 支付宝分配的 APPID
-        'app_id' => env('ALI_APP_ID', ''),
+        'app_id' => env('ALIPAY_APP_ID', ''),
 
         // 支付宝异步通知地址
-        'notify_url' => '',
+        'notify_url' => 'http://114.132.216.65:9000/payment/notify/alipay',
 
         // 支付成功后同步通知地址
         'return_url' => '',
 
         // 阿里公共密钥，验证签名时使用
-        'ali_public_key' => env('ALI_PUBLIC_KEY', ''),
+        'ali_public_key' => env('ALIPAY_PUBLIC_KEY', ''),
 
         // 自己的私钥，签名时使用
-        'private_key' => env('ALI_PRIVATE_KEY', ''),
+        'private_key' => env('ALIPAY_PRIVATE_KEY', ''),
 
         // 使用公钥证书模式，请配置下面两个参数，同时修改 ali_public_key 为以 .crt 结尾的支付宝公钥证书路径，如（./cert/alipayCertPublicKey_RSA2.crt）
         // 应用公钥证书路径

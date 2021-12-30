@@ -14,7 +14,7 @@
     },
     "autoload": {
         "psr-4": {
-            "Imdgr886\\Order\\": "src"
+            "Imdgr886\\Order\\": "src/"
         }
     },
     "extra": {

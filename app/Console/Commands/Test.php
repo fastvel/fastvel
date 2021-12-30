@@ -2,15 +2,21 @@
 
 namespace App\Console\Commands;
 
+use App\Models\DevicePlan;
 use Illuminate\Console\Command;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Validator;
+use Imdgr886\Order\Events\BeforePlaceOrderEvent;
+use Imdgr886\Order\Events\PlaceOrderEvent;
+use Imdgr886\Order\Models\Order;
+use Imdgr886\Order\Models\OrderItem;
 use Imdgr886\Sms\Sms;
 use Imdgr886\Snowflake\Facades\Snowflake as FacadesSnowflake;
 use Imdgr886\Snowflake\Snowflake;
 use Imdgr886\User\Models\Oauth;
 use Imdgr886\User\Models\User;
 use Imdgr886\Wechat\Events\ScanLoginEvent;
+use Yansongda\LaravelPay\Facades\Pay;
 
 class Test extends Command
 {
@@ -45,6 +51,10 @@ class Test extends Command
      */
     public function handle()
     {
+        echo Pay::alipay(config('pay.alipay'))->scan(['out_trade_no' => '122435546457856',
+                'total_amount' => 0.01,
+                'subject'      => "支付订单"]);
+        return;
         //Oauth::query()->where(['openid' => 'oyw8o63Azs6LfSKR-PrLauITWhQw', 'platform' => Oauth::WECHAT_MP])->first();
         event(new ScanLoginEvent(User::first(), '5597230415872'));
         return;

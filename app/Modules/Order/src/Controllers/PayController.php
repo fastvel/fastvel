@@ -8,6 +8,7 @@
 namespace Imdgr886\Order\Controllers;
 
 use Illuminate\Routing\Controller;
+use Illuminate\Routing\UrlGenerator;
 use Imdgr886\Order\Models\Order;
 use Imdgr886\Order\Models\OrderTransaction;
 use Yansongda\LaravelPay\Facades\Pay;
@@ -17,17 +18,18 @@ class PayController extends Controller
 
     public function alipay(Order $order)
     {
-        if ($order->is_paid) {
+        if ($order->paid_at) {
             return response(200, "订单不能重复支付");
         }
         $method = request()->get('method', 'web');
         $params = $this->paymentParams($order, 'alipay', $method);
-        $params['notify_url'] = route('alipay-notify');
+        // $params['notify_url'] = route('alipay-notify');
+        
         switch ($method) {
             case 'scan':
-                return Pay::alipay(config('pay.alipay'))->scan($params);
+                return response()->json(Pay::alipay(config('pay.alipay'))->scan($params));
             default:
-                return Pay::alipay(config('pay.alipay'))->$method($params)->send();
+                return response()->json(Pay::alipay(config('pay.alipay'))->$method($params)->send());
         }
 
     }

@@ -62,7 +62,7 @@ class Order extends Model
 
 
 
-    public $appends = ['status_label', 'order_type', 'all_discounted_amount_text'];
+    public $appends = ['status_label', 'order_type'];
 
     protected $hidden = ['pivot'];
 
@@ -157,10 +157,9 @@ class Order extends Model
     public function paid($paidAmount = 0)
     {
         $this->paid_amount = $paidAmount;
-        $this->is_paid = 1;
         $this->paid_at = Carbon::now()->toDateTimeString();
         $this->status = self::PAID;
-        $this->save();
+        return $this;
     }
 
     public function getOrderTypeAttribute()
@@ -170,13 +169,13 @@ class Order extends Model
         if ($this->items()->exists()) {
             switch ($this->items()->first()->order_type) {
                 case OrderItem::ORDER_TYPE_NEW:
-                    $type = '新购订单';
+                    $type = '新购';
                     break;
                 case OrderItem::ORDER_TYPE_RENEW:
-                    $type = '续费订单';
+                    $type = '续费';
                     break;
-                case OrderItem::ORDER_TYPE_OTHER:
-                    $type = '增值服务';
+                default:
+                    $type = '其他';
                     break;
             }
         }

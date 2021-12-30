@@ -5,6 +5,7 @@ namespace Imdgr886\Wechat\Http\Controllers;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
+use Illuminate\Support\Facades\Log;
 use Imdgr886\User\Models\Oauth;
 use Imdgr886\User\Models\User;
 
@@ -18,11 +19,12 @@ class OauthBindController extends Controller
             'openid' => ['required', 'string']
         ]);
         $wechatUser = app('wechat.official_account')->user->get($request->get('openid'));
+        Log::info(var_export($wechatUser, true));
         // 是否有账号
         $user = User::query()->firstOrCreate([
             'mobile' => $request->get('mobile')
         ], [
-            'name' => $wechatUser['nickname'],
+            'name' => $wechatUser['nickname'] ?: $request->get('mobile'),
             'avatar' =>$wechatUser['headimgurl'],
         ]);
         // 如果是新注册的用户，触发注册事件

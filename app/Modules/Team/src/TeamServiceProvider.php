@@ -58,7 +58,7 @@ class TeamServiceProvider extends ServiceProvider
                 ->middleware('signed')
                 ->name('team-invitations.accept');
 
-            Route::delete('/team-invitations/{invitation}', [TeamInvitationController::class, 'destroy'])
+            Route::delete('/team-invitations/{invitation}', [InvitationController::class, 'destroy'])
                 ->name('team-invitations.destroy');
         });
     }

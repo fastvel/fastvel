@@ -7,12 +7,14 @@
 
 namespace Imdgr886\Order\Events;
 
+use Illuminate\Broadcasting\Channel;
 use Illuminate\Broadcasting\InteractsWithSockets;
+use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
 use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Queue\SerializesModels;
 use Imdgr886\Order\Models\Order;
 
-class OrderPaidEvent
+class OrderPaidEvent implements ShouldBroadcast
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
@@ -21,5 +23,23 @@ class OrderPaidEvent
     public function __construct(Order $order)
     {
         $this->order = $order;
+    }
+
+     public function broadcastWith()
+    {
+        return [
+            'order_id' => $this->order->id,
+            'status' => 'paid',
+        ];
+    }
+
+    public function broadcastOn()
+    {
+        return new Channel("order.{$this->order->id}");
+    }
+
+    public function broadcastAs()
+    {
+        return 'paid';
     }
 }

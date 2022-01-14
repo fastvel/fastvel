@@ -48,29 +48,35 @@ class OrderController extends AdminController
             $items = $model->items;
             $data = [];
             foreach ($items as $item) {
-                if ($item->product instanceof Plan) {
-                    $data[] = [
-                        Plan::PLAN_TYPE_ENUM[$item->product->plan_type],
-                        in_array($item->product->plan_type, [Plan::PLAN_TYPE_VAT, Plan::PLAN_TYPE_IOSS]) ? $item->product->country->name . ':' . $item->product->name : $item->product->name,
-                        $item->price,
-                        $item->quantity,
-                        $item->total
-                    ];
-                } elseif ($item->product instanceof PlansCombos) {
-                    $data[] = [
-                        '套餐',
-                        $item->name,
-                        $item->price,
-                        $item->quantity,
-                        $item->total
-                    ];
-                }
+                // if ($item->product instanceof Plan) {
+                //     $data[] = [
+                //         Plan::PLAN_TYPE_ENUM[$item->product->plan_type],
+                //         in_array($item->product->plan_type, [Plan::PLAN_TYPE_VAT, Plan::PLAN_TYPE_IOSS]) ? $item->product->country->name . ':' . $item->product->name : $item->product->name,
+                //         $item->price,
+                //         $item->quantity,
+                //         $item->total
+                //     ];
+                // } elseif ($item->product instanceof PlansCombos) {
+                //     $data[] = [
+                //         '套餐',
+                //         $item->name,
+                //         $item->price,
+                //         $item->quantity,
+                //         $item->total
+                //     ];
+                // }
+                $data[] = [
+                    $item->name,
+                    $item->price,
+                    $item->qty,
+                    $item->total
+                ];
             }
-            return new Table(['种类', '名称', '价格', '数量', '合计'], $data);
+            return new Table(['名称', '价格', '数量', '合计'], $data);
         });
         $grid->column('user.name', '用户')->display(function ($value) {
-            $url = route('admin.users.index', ['mobile' => $this->user->mobile ?? '']);
-            return "<a href='$url' target='_blank'>$value</a>";
+            // $url = route('admin.users.index', ['mobile' => $this->user->mobile ?? '']);
+            return "<a href='/users?mobile={$this->user->mobile}' target='_blank'>$value</a>";
         });
         $grid->column('customer_service', '客服')->display(function () {
             return $this->user->customerService->name ?? '';
@@ -80,7 +86,7 @@ class OrderController extends AdminController
         });
         $grid->column('user.source_name', '用户来源');
         $grid->column('order_amount', '订单金额')->sortable()->display(function () {
-            return $this->order_amount . ($this->all_discounted_amount_text);
+            return $this->order_amount ;
             // ($this->discount_amount > 0 ? "<br/><span class='text-muted'>({$this->items_total} - {$this->discount_amount})</span>" : '');
         })->totalRow(function ($amount) {
             return "<span class='text-danger text-bold'><i class='fa fa-yen'></i> {$amount} 元</span>";
@@ -115,19 +121,19 @@ class OrderController extends AdminController
 
         $grid->actions(function (Grid\Displayers\Actions $actions) {
 
-            if (checkSlugAuth(PermissionConstants::DELETE_ORDER)) {
-                $actions->disableDelete(false);
-            } else {
-                $actions->disableDelete();
-            }
-            $actions->disableEdit();
-            // $actions->disableView();
-            if ($actions->row->status == Order::PENDING) {
-                $actions->add(new PayAfterIssued());
-                if (checkSlugAuth(PermissionConstants::ORDER_MANUAL_DISCOUNT)) {
-                    $actions->add(new ManualDiscount());
-                }
-            }
+            // if (checkSlugAuth(PermissionConstants::DELETE_ORDER)) {
+            //     $actions->disableDelete(false);
+            // } else {
+            //     $actions->disableDelete();
+            // }
+            // $actions->disableEdit();
+            // // $actions->disableView();
+            // if ($actions->row->status == Order::PENDING) {
+            //     $actions->add(new PayAfterIssued());
+            //     if (checkSlugAuth(PermissionConstants::ORDER_MANUAL_DISCOUNT)) {
+            //         $actions->add(new ManualDiscount());
+            //     }
+            // }
             if ($actions->row->transaction && in_array($actions->row->transaction->payment_gateway, [OrderTransaction::GATEWAY_ALI, OrderTransaction::GATEWAY_WECHAT])) {
                 $actions->add(new \Imdgr886\Order\Admin\ActionWidgets\ApplyRefund());
             }

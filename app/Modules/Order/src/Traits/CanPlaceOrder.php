@@ -31,7 +31,10 @@ trait CanPlaceOrder
             $itemsTotal += $product->getProductAmount($qty, $options);
             $orderItem = new OrderItem([
                 'qty' => $qty,
-                'options' => $options
+                'options' => $options,
+                'name' => $product->getName(),
+                'price' => $product->getPrice(),
+                'total' => $product->getProductAmount($qty, $options),
             ]);
             $orderItem->product()->associate($product);
             $orderItems[] = $orderItem;

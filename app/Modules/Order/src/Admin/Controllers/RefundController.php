@@ -36,7 +36,7 @@ class RefundController extends Controller
     {
         $content->title('发起退款');
         $content->row(view('admin.order.view', ['order' => $order]));
-        if (!$order->is_paid) {
+        if (!$order->paid_at) {
             return $content->withWarning('警告', '订单未支付，不能发起退款！');
         } else if (!$order->transaction_id) {
             return $content->withWarning('警告', '订单非线上支付，暂不能发起退款！');
@@ -71,22 +71,8 @@ class RefundController extends Controller
         $form->multipleSelect('stop_order_items', '停掉服务')->options(function () use ($order){
             $enum = [];
             foreach ($order->items as $item){
-                if($item->product instanceof Plan){
-                    switch ($item->product->plan_type){
-                        case Plan::PLAN_TYPE_VAT:
-                            $name = 'VAT服务:国家' . $item->product->country_code . ':' . $item->product->name;
-                            break;
-                        case Plan::PLAN_TYPE_AGENT:
-                            $name = '代理服务:' . $item->product->name;
-                            break;
-                        case Plan::PLAN_TYPE_IOSS:
-                            $name = 'IOSS服务:' . $item->product->country_code . ':' . $item->product->name;
-                            break;
-                    }
-                }elseif ($item->product instanceof PlansCombos){
-                    $name = '套餐服务:' . $item->product->name;
-                }
-                $enum[$item->item_id] = sprintf('服务名称:%s 服务单价:%s 服务数量:%s', $name, $item->price, $item->quantity);
+                
+                $enum[$item->item_id] = sprintf('服务名称:%s 服务单价:%s 服务数量:%s', $item->name, $item->price, $item->qty);
             }
             return $enum;
         });
@@ -135,12 +121,12 @@ class RefundController extends Controller
         $grid->column('applyBy.name', '申请人');
         $grid->column('comment', '备注');
 
-        if (checkSlugAuth(PermissionConstants::VERIFY_REFUND, true)) {
+        //if (checkSlugAuth(PermissionConstants::VERIFY_REFUND, true)) {
             $grid->tools(function (Grid\Tools $tools) {
                 $tools->append(new BatchApproveRefund());
                 $tools->append(new BatchRefuseRefund());
             });
-        }
+        //}
         $grid->actions(function(Grid\Displayers\Actions $actions) {
             $actions->disableDelete();
             $actions->disableEdit();

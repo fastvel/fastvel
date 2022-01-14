@@ -11,14 +11,10 @@
                     @endif
                 </td>
 
-                <th>支付状态</th>
+                <th>订单状态</th>
                 <td>
 
-                    @if ($order->is_paid)
-                        <span class="text-green">已支付 ￥{{$order->paid_amount}}</span>
-                    @else
-                        <span class="text-red">未支付</span>
-                    @endif
+                        <span class="text-red">{{ $order->status_label }}（已付￥{{$order->paid_amount}}）</span>
                 </td>
             </tr>
             <tr>

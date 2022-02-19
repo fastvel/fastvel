@@ -25,14 +25,6 @@ class OrderPaidEvent implements ShouldBroadcast
         $this->order = $order;
     }
 
-     public function broadcastWith()
-    {
-        return [
-            'order_id' => $this->order->id,
-            'status' => 'paid',
-        ];
-    }
-
     public function broadcastOn()
     {
         return new Channel("order.{$this->order->id}");

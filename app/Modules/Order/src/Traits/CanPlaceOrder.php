@@ -42,7 +42,7 @@ trait CanPlaceOrder
         $order->items_total = $itemsTotal;
         $order->discount_amount = 0;
         $order->order_amount = $itemsTotal;
-        $order->user_id = $this->id;
+        $order->owner()->associate($this);
         if ($order->order_amount <= 0) {
             $order->paid();
         }

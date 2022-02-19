@@ -5,7 +5,7 @@
  * Github: https://github.com/imdgr
  */
 
-namespace App\DeviceProvider;
+namespace App\CloudComputerProvider;
 
 use App\Models\Device;
 
@@ -22,9 +22,10 @@ abstract class DeviceProvider
 
     /**
      * 创建实例
+     * @region 区域id
      * @return mixed
      */
-    abstract public function create();
+    abstract public function create($region, $type, $period, $options);
 
     /**
      * 销毁/退订实例

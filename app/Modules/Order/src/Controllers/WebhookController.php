@@ -20,7 +20,7 @@ use Imdgr886\Order\Models\OrderTransaction;
 use Imdgr886\Order\Models\OrderTransactionNotify;
 use Yansongda\LaravelPay\Facades\Pay;
 
-class NotifyController extends Controller
+class WebhookController extends Controller
 {
 
     public function alipay()

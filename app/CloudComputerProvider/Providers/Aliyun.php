@@ -5,9 +5,9 @@
  * Github: https://github.com/imdgr
  */
 
-namespace App\DeviceProvider\Providers;
+namespace App\CloudComputerProvider\Providers;
 
-use App\DeviceProvider\DeviceProvider;
+use App\CloudComputerProvider\DeviceProvider;
 
 class Aliyun extends DeviceProvider
 {

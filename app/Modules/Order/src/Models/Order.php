@@ -92,9 +92,9 @@ class Order extends Model
         $history->save();*/
     }
 
-    public function user(): BelongsTo
+    public function owner()
     {
-        return $this->belongsTo(User::class);
+        return $this->morphTo();
     }
 
     public function items()

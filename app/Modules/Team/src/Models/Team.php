@@ -3,10 +3,15 @@
 namespace Imdgr886\Team\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Imdgr886\Order\Traits\CanPlaceOrder;
+use Imdgr886\Order\Traits\HasOrder;
 use Imdgr886\User\Models\User;
 
 class Team extends Model
 {
+
+    use HasOrder, CanPlaceOrder;
+
     protected $fillable = ['name', 'personal_team', 'invite_token'];
 
     /**

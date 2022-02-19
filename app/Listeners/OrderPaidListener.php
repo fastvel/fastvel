@@ -3,8 +3,10 @@
 namespace App\Listeners;
 
 use App\Models\DevicePlan;
+use Carbon\Carbon;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Queue\InteractsWithQueue;
+use Illuminate\Support\Facades\DB;
 use Imdgr886\Order\Events\OrderPaidEvent;
 
 class OrderPaidListener
@@ -27,18 +29,16 @@ class OrderPaidListener
      */
     public function handle(OrderPaidEvent $event)
     {
-        // 判单订单是否已经处理过了
 
-        // 分清是续费还是新购
         foreach ($event->order->items as $item) {
-            if ($item->product instanceof DevicePlan) {
-                $this->renewService($item->product);
-            } else {
-                $this->createService($item->product);
-            }
+            [
+                'team_id' => $event->order->owner_id,
+                'expires_at' => Carbon::now()->addMonths(),
+                'provider' => '',
+                'instance_mode'
+            ]
         }
         
-
     }
 
     protected function renewService(DevicePlan $pan)

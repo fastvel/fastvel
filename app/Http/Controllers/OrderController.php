@@ -29,7 +29,7 @@ class OrderController extends Controller
 
 
         $product = DevicePlan::query()->findOrFail($request->get('plan_id'));
-        $order = auth('api')->user()->placeOrder([$product, $request->qty, ['duration' => $request->duration]]);
+        $order = auth('api')->user()->current_team->placeOrder([$product, $request->qty, ['duration' => $request->duration]]);
 
         return response()->json($order);
     }

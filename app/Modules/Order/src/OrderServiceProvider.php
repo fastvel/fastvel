@@ -53,7 +53,7 @@ class OrderServiceProvider extends ServiceProvider
             Route::post('/pay/order/{order}/wechat', 'Imdgr886\Order\Controllers\PayController@wechat')->name('wechat-pay');
         });
 
-        Route::post('/payment/notify/alipay', 'Imdgr886\Order\Controllers\NotifyController@alipay')->name('alipay-notify');
-        Route::post('/payment/notify/wechat', 'Imdgr886\Order\Controllers\NotifyController@wechat')->name('wechat-notify');
+        Route::post('/payment/alipay/notify', 'Imdgr886\Order\Controllers\WebhookController@alipay')->name('alipay-notify');
+        Route::post('/payment/wechat/notify', 'Imdgr886\Order\Controllers\WebhookController@wechat')->name('wechat-notify');
     }
 }
